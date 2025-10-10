@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { motion } from "framer-motion";
 import { Clock, Mail, ShieldCheck, ShoppingCart } from "lucide-react";
 import { Section } from "./Section";

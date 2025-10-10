@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Section } from "./Section";
 import { products as all } from "../data/products";
 import type { Product } from "../data/products";
