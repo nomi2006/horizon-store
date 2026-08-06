@@ -1,31 +1,90 @@
-// import React from "react";
-import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
-import {
-  PopularSection,
-  BestSellersSection,
-  RecentSection,
-} from "./components/Collections";
-import { Features } from "./components/Features";
-import { Newsletter } from "./components/Newsletter";
-import { Footer } from "./components/Footer";
-import { BackToTop } from "./components/BackToTop";
+import React, { useEffect } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import { CartProvider } from './context/CartContext'
+import { WishlistProvider } from './context/WishlistContext'
+import { ThemeProvider } from './context/ThemeContext'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { AdminRoute } from './components/AdminRoute'
+import { Header } from './components/Header'
+import { Footer } from './components/Footer'
+import { HomePage } from './pages/HomePage'
+import { ShopPage } from './pages/ShopPage'
+import { ProductDetailPage } from './pages/ProductDetailPage'
+import { LoginPage } from './pages/LoginPage'
+import { RegisterPage } from './pages/RegisterPage'
+import { CartPage } from './pages/CartPage'
+import { CheckoutPage } from './pages/CheckoutPage'
+import { OrderSuccessPage } from './pages/OrderSuccessPage'
+import { DashboardPage } from './pages/DashboardPage'
+import { OrdersPage } from './pages/OrdersPage'
+import { WishlistPage } from './pages/WishlistPage'
+import { ProfilePage } from './pages/ProfilePage'
+import { AdminLayout } from './components/admin/AdminLayout'
+import { DashboardPage as AdminDashboard } from './pages/admin/DashboardPage'
+import { ProductsPage } from './pages/admin/ProductsPage'
+import { ProductEditPage } from './pages/admin/ProductEditPage'
+import { CategoriesPage } from './pages/admin/CategoriesPage'
+import { OrdersPage as AdminOrders } from './pages/admin/OrdersPage'
+import { OrderDetailPage } from './pages/admin/OrderDetailPage'
+import { CustomersPage } from './pages/admin/CustomersPage'
+import { CouponsPage } from './pages/admin/CouponsPage'
+import { SettingsPage } from './pages/admin/SettingsPage'
 
-export default function App() {
+function App() {
+  useEffect(() => {
+    const saved = localStorage.getItem('theme')
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [])
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-white to-gray-50 text-gray-900">
-      <div className="relative isolate bg-black py-2 text-center text-sm text-white">
-        <span>✨ Fall Sale: Up to 30% off select models</span>
-      </div>
-      <Header />
-      <Hero />
-      <PopularSection />
-      <BestSellersSection />
-      <RecentSection />
-      <Features />
-      <Newsletter />
-      <Footer />
-      <BackToTop />
-    </div>
-  );
+    <ThemeProvider>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <main className="flex-grow pt-16">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/shop" element={<ShopPage />} />
+                  <Route path="/product/:id" element={<ProductDetailPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+                  <Route path="/order-success" element={<ProtectedRoute><OrderSuccessPage /></ProtectedRoute>} />
+                  <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+                  <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
+                  <Route path="/wishlist" element={<ProtectedRoute><WishlistPage /></ProtectedRoute>} />
+                  <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                  <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+                    <Route index element={<AdminDashboard />} />
+                    <Route path="products" element={<ProductsPage />} />
+                    <Route path="products/new" element={<ProductEditPage />} />
+                    <Route path="products/:id/edit" element={<ProductEditPage />} />
+                    <Route path="categories" element={<CategoriesPage />} />
+                    <Route path="orders" element={<AdminOrders />} />
+                    <Route path="orders/:id" element={<OrderDetailPage />} />
+                    <Route path="customers" element={<CustomersPage />} />
+                    <Route path="coupons" element={<CouponsPage />} />
+                    <Route path="settings" element={<SettingsPage />} />
+                  </Route>
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
+          </WishlistProvider>
+        </CartProvider>
+      </AuthProvider>
+    </ThemeProvider>
+  )
 }
+
+export default App
