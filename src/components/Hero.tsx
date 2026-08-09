@@ -1,79 +1,80 @@
-// import React from "react";
-import { motion } from "framer-motion";
-import { ChevronRight, Clock, ShieldCheck } from "lucide-react";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import CategorySidebar from './CategorySidebar';
 
-export function Hero() {
+interface HeroProps {
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  showSidebar?: boolean;
+}
+
+const Hero: React.FC<HeroProps> = ({
+  title = "iPhone 14 Series",
+  subtitle = "Up to 10% off Voucher",
+  ctaText = "Shop Now →",
+  ctaLink = "/shop",
+  imageSrc = "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=600&h=600&fit=crop&crop=center",
+  imageAlt = "iPhone 14 Series",
+  showSidebar = true,
+}) => {
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-tr from-black/10 to-transparent blur-3xl" />
-        <div className="absolute -right-24 top-32 h-72 w-72 rounded-full bg-gradient-to-tr from-gray-400/20 to-transparent blur-3xl" />
-      </div>
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-12 lg:py-24 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="order-2 space-y-6 lg:order-1 lg:col-span-6"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium">
-            <ShieldCheck className="h-3.5 w-3.5" /> 5-year warranty
-          </span>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Precision Timepieces for Modern Life
-          </h1>
-          <p className="text-lg text-gray-600">
-            Meticulously engineered watches with sapphire crystal, surgical
-            steel, and Swiss-movement options. Built to perform. Designed to
-            impress.
-          </p>
-          <div className="flex flex-wrap items-center gap-3">
-            <a
-              href="#bestsellers"
-              className="inline-flex items-center gap-2 rounded-xl bg-black px-5 py-3 text-white"
-            >
-              Shop Best Sellers <ChevronRight className="h-4 w-4" />
-            </a>
-            <a
-              href="#popular"
-              className="inline-flex items-center gap-2 rounded-xl border px-5 py-3"
-            >
-              Explore Collection
-            </a>
-          </div>
-          <div className="flex items-center gap-6 pt-2 text-sm text-gray-600">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4" /> 2-year battery
+    <section className="bg-dark-DEFAULT text-white">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Category Sidebar */}
+          {showSidebar && (
+            <div className="hidden lg:block">
+              <div className="border-r border-gray-700 pr-8">
+                <CategorySidebar />
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4" /> 50m water resistance
+          )}
+
+          {/* Hero Content */}
+          <div className="flex-1 bg-dark-light rounded-lg overflow-hidden relative">
+            <div className="flex flex-col md:flex-row items-center justify-between p-6 md:p-12 lg:p-16">
+              {/* Left Content */}
+              <div className="flex-1 text-center md:text-left">
+                <div className="inline-block px-4 py-1 bg-primary-DEFAULT text-white text-xs font-semibold rounded mb-4">
+                  New Arrival
+                </div>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+                  {title}
+                </h1>
+                <p className="text-base md:text-lg text-gray-300 mb-6">
+                  {subtitle}
+                </p>
+                <Link
+                  to={ctaLink}
+                  className="inline-flex items-center gap-2 text-white font-medium hover:text-primary-DEFAULT transition-colors border-b-2 border-primary-DEFAULT pb-1"
+                >
+                  {ctaText}
+                </Link>
+              </div>
+
+              {/* Right Image */}
+              <div className="flex-1 mt-6 md:mt-0 md:ml-8">
+                <div className="relative max-w-sm mx-auto md:mx-0">
+                  <img
+                    src={imageSrc}
+                    alt={imageAlt}
+                    className="w-full h-auto object-contain"
+                    loading="eager"
+                  />
+                  {/* Decorative gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark-DEFAULT/20 to-transparent pointer-events-none rounded-lg"></div>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="order-1 lg:order-2 lg:col-span-6"
-        >
-          <div className="relative mx-auto aspect-[5/6] w-full max-w-md overflow-hidden rounded-3xl shadow-2xl">
-            <img
-              src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop"
-              alt="Hero Watch"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="absolute bottom-4 left-4 rounded-xl bg-white/90 px-4 py-2 text-sm shadow-sm"
-            >
-              Free express shipping
-            </motion.div>
-          </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default Hero;

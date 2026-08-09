@@ -6,7 +6,7 @@ import { productService } from '../services/productService'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { LoadingSpinner } from '../components/LoadingSpinner'
-import { ProductCard } from '../components/ProductCard'
+import ProductCard from '../components/ProductCard'
 import toast from 'react-hot-toast'
 
 export function ProductDetailPage() {

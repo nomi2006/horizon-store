@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { productService } from '../services/productService'
 import { categoryService } from '../services/categoryService'
-import { ProductCard } from '../components/ProductCard'
+import ProductCard from '../components/ProductCard'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import { Filter, X, ChevronDown } from 'lucide-react'
 

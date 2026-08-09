@@ -1,60 +1,131 @@
-import { motion } from "framer-motion";
-import { ShoppingCart, Star } from "lucide-react";
-import type { Product } from "../data/products";
-import { formatPrice } from "../data/products";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
-const Stars = ({ rating }: { rating: number }) => (
-  <div className="mt-1 flex items-center gap-1 text-amber-500">
-    {Array.from({ length: 5 }).map((_, i) => (
-      <Star
-        key={i}
-        className={`h-4 w-4 ${i < Math.round(rating) ? "fill-current" : ""}`}
-      />
-    ))}
-  </div>
-);
-
-export function ProductCard({ product }: { product: Product }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      className="group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:shadow-xl"
-    >
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-        <div className="absolute left-3 top-3 flex gap-2">
-          {product.tags?.slice(0, 2).map((t) => (
-            <span
-              key={t}
-              className="rounded-full bg-black/80 px-2.5 py-1 text-[10px] uppercase tracking-wider text-white"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-      <div className="space-y-3 p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h3 className="text-lg font-semibold">{product.name}</h3>
-            <Stars rating={product.rating} />
-          </div>
-          <div className="text-right">
-            <p className="text-lg font-bold">{formatPrice(product.price)}</p>
-            <p className="text-xs text-gray-500">incl. taxes</p>
-          </div>
-        </div>
-        <button className="flex w-full items-center justify-center gap-2 rounded-xl border bg-black px-4 py-2.5 text-white transition hover:bg-gray-900">
-          <ShoppingCart className="h-4 w-4" /> Add to cart
-        </button>
-      </div>
-    </motion.div>
-  );
+interface ProductCardProps {
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    originalPrice?: number;
+    image: string;
+    rating?: number;
+    reviewCount?: number;
+    discountPercentage?: number;
+    isNew?: boolean;
+    slug?: string;
+  };
+  showSaleBadge?: boolean;
+  showNewBadge?: boolean;
+  className?: string;
 }
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  showSaleBadge = false,
+  showNewBadge = false,
+  className = '',
+}) => {
+  const { addToCart } = useCart();
+  const { user } = useAuth();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!user) {
+      return;
+    }
+
+    setIsAddingToCart(true);
+    try {
+      await addToCart(product.id, 1);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    } finally {
+      setIsAddingToCart(false);
+    }
+  };
+
+  const discountPercentage = product.discountPercentage || 
+    (product.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0);
+
+  return (
+    <Link to={`/product/${product.slug || product.id}`} className={`block ${className}`}>
+      <div className="product-card group">
+        <div className="product-image">
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+          />
+          
+          <div className="product-badge flex flex-col gap-1">
+            {showSaleBadge && discountPercentage > 0 && (
+              <span className="badge-sale">-{discountPercentage}%</span>
+            )}
+            {showNewBadge && (
+              <span className="badge-sale bg-green-600">NEW</span>
+            )}
+          </div>
+
+          <div className="product-actions opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              onClick={handleAddToCart}
+              disabled={isAddingToCart}
+              className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors disabled:opacity-50"
+              aria-label="Add to cart"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </button>
+            <button
+              className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors"
+              aria-label="Add to wishlist"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div className="product-info">
+          <h3 className="product-name">{product.name}</h3>
+          
+          <div className="product-price">
+            <span className="price-current">${product.price.toFixed(2)}</span>
+            {product.originalPrice && product.originalPrice > product.price && (
+              <span className="price-original">${product.originalPrice.toFixed(2)}</span>
+            )}
+          </div>
+
+          {product.rating !== undefined && (
+            <div className="product-rating">
+              <div className="rating-stars">
+                {[...Array(5)].map((_, index) => (
+                  <svg
+                    key={index}
+                    className={`w-4 h-4 ${index < Math.round(product.rating || 0) ? 'text-yellow-500' : 'text-gray-300'}`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              {product.reviewCount !== undefined && (
+                <span className="text-xs text-gray-500">({product.reviewCount})</span>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+export default ProductCard;
