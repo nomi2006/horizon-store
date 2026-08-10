@@ -34,7 +34,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (!user) {
       return;
     }
@@ -49,19 +49,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }
   };
 
-  const discountPercentage = product.discountPercentage || 
+  const discountPercentage = product.discountPercentage ||
     (product.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0);
+  const imageUrl = product.image || 'https://via.placeholder.com/300x300?text=No+Image';
 
   return (
     <Link to={`/product/${product.slug || product.id}`} className={`block ${className}`}>
       <div className="product-card group">
         <div className="product-image">
           <img
-            src={product.image}
+            src={imageUrl}
             alt={product.name}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
-          
+
           <div className="product-badge flex flex-col gap-1">
             {showSaleBadge && discountPercentage > 0 && (
               <span className="badge-sale">-{discountPercentage}%</span>
@@ -95,7 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         <div className="product-info">
           <h3 className="product-name">{product.name}</h3>
-          
+
           <div className="product-price">
             <span className="price-current">${product.price.toFixed(2)}</span>
             {product.originalPrice && product.originalPrice > product.price && (

@@ -5,13 +5,14 @@ import { ArrowRight, Truck, RefreshCw, Headphones } from 'lucide-react'
 import { productService } from '../services/productService'
 import ProductCard from '../components/ProductCard'
 import { LoadingSpinner } from '../components/LoadingSpinner'
-// import TopBar from '../components/TopBar' 
 import Navbar from '../components/Navbar'
-import { Footer } from '../components/Footer'
+// import { Footer } from '../components/Footer'
 import CategorySidebar from '../components/CategorySidebar'
 import CountdownTimer from '../components/CountdownTimer'
 import MusicBanner from '../components/MusicBanner'
 import NewArrival from '../components/NewArrival'
+import TopBar from '../components/TopBar'
+import FeaturesBar from '../components/FeaturesBar'
 
 export function HomePage() {
   const [featured, setFeatured] = useState([])
@@ -19,6 +20,7 @@ export function HomePage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    console.log('HomePage mounted')
     const fetchData = async () => {
       try {
         const [featuredRes, bestRes] = await Promise.all([
@@ -50,9 +52,10 @@ export function HomePage() {
     { name: 'Gaming', emoji: '🎮' }
   ]
 
+  console.log('Rendering HomePage with TopBar, MusicBanner, FeaturesBar')
   return (
     <div className="min-h-screen bg-white">
-      {/* <TopBar /> */}
+      <TopBar />
       <Navbar />
       <main>
         {/* Hero Section with Sidebar */}
@@ -92,9 +95,7 @@ export function HomePage() {
                       Shop Now →
                     </Link>
                   </div>
-
-                  {/* Right Image */}
-                  <div className="flex-1 mt-6 md:mt-0 md:ml-8">
+                 <div className="flex-1 mt-6 md:mt-0 md:ml-8">
                     <div className="relative max-w-sm mx-auto md:mx-0">
                       <img
                         src="https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=600&h=600&fit=crop&crop=center"
@@ -102,7 +103,7 @@ export function HomePage() {
                         className="w-full h-auto object-contain"
                         loading="eager"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-dark-DEFAULT/20 to-transparent pointer-events-none rounded-lg"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/20 to-transparent pointer-events-none rounded-lg"></div>
                     </div>
                   </div>
                 </motion.div>
@@ -203,13 +204,10 @@ export function HomePage() {
             )}
           </div>
         </section>
-
         {/* Music Banner */}
         <MusicBanner />
-
         {/* New Arrival */}
         <NewArrival />
-
         {/* Features Bar */}
         <section className="py-12 md:py-16 border-t border-gray-200">
           <div className="container mx-auto px-4">

@@ -6,7 +6,6 @@ import { WishlistProvider } from './context/WishlistContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AdminRoute } from './components/AdminRoute'
-// import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 import { HomePage } from './pages/HomePage'
 import { ShopPage } from './pages/ShopPage'
@@ -48,7 +47,6 @@ function App() {
         <CartProvider>
           <WishlistProvider>
             <div className="min-h-screen flex flex-col">
-              {/* <Header /> */}
               <main className="flex-grow pt-16">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
