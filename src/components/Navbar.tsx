@@ -77,14 +77,12 @@ const Navbar: React.FC = () => {
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 h-[72px]">
         <div className="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <div className="flex items-center justify-between h-full">
-            {/* Logo */}
             <Link to="/" className="flex-shrink-0">
               <span className="text-2xl font-bold text-gray-900 tracking-tight hover:text-gray-700 transition-colors duration-200">
                 Horizon
               </span>
             </Link>
 
-            {/* Desktop Navigation Links */}
             <div className="hidden md:flex items-center gap-8 h-full">
               {navLinks.map((link) => (
                 <Link
@@ -112,9 +110,7 @@ const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* Desktop Right Icons */}
             <div className="hidden md:flex items-center gap-5">
-              {/* Search */}
               <div className="relative flex items-center">
                 {isSearchOpen ? (
                   <form onSubmit={handleSearch} className="flex items-center">
@@ -159,7 +155,6 @@ const Navbar: React.FC = () => {
                 )}
               </div>
 
-              {/* Wishlist */}
               <Link
                 to="/wishlist"
                 className="text-gray-600 hover:text-gray-900 transition-colors p-1"
@@ -170,7 +165,6 @@ const Navbar: React.FC = () => {
                 </svg>
               </Link>
 
-              {/* Cart */}
               <Link
                 to="/cart"
                 className="text-gray-600 hover:text-gray-900 transition-colors p-1 relative"
@@ -187,7 +181,6 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
@@ -204,12 +197,10 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <div ref={menuRef} className="md:hidden bg-white border-t border-gray-200 shadow-lg animate-slide-down">
             <div className="max-w-[1170px] mx-auto px-4 py-4">
               <div className="flex flex-col gap-3">
-                {/* Mobile Search */}
                 <form onSubmit={handleSearch} className="flex items-center mb-2">
                   <input
                     type="text"

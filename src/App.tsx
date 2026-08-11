@@ -47,7 +47,7 @@ function App() {
         <CartProvider>
           <WishlistProvider>
             <div className="min-h-screen flex flex-col">
-              <main className="flex-grow pt-16">
+              <main className="flex-grow">   {/* ✅ pt-16 REMOVED */}
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/shop" element={<ShopPage />} />

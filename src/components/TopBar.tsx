@@ -1,32 +1,48 @@
 import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const TopBar: React.FC = () => {
   const [language, setLanguage] = useState('English');
 
   return (
-    <div className="bg-[#1A1A1A] text-white text-xs md:text-sm py-2 px-4 w-full border-b border-gray-700">
-      <div className="max-w-[1170px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-        <div className="text-center sm:text-left">
+    <div className="w-full bg-[#1A1A1A] text-white h-[36px]">
+      <div className="max-w-[1170px] h-full mx-auto px-4 flex items-center justify-between">
+        
+        <div className="flex-1 text-center text-[12px] leading-none">
           <span>
             Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
           </span>
-          <a href="/shop" className="font-bold underline ml-1 hover:text-red-400 transition-colors">
+
+          <a
+            href="/shop"
+            className="ml-1 font-semibold underline hover:text-gray-300 transition-colors"
+          >
             ShopNow
           </a>
         </div>
-        <div className="flex items-center gap-1">
+
+        <div className="flex items-center gap-1 ml-4">
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className="bg-transparent text-white text-xs md:text-sm focus:outline-none cursor-pointer hover:text-red-400 transition-colors"
+            className="appearance-none bg-transparent border-none outline-none cursor-pointer text-[12px] text-white pr-1"
           >
-            <option value="English" className="text-black">English</option>
-            <option value="Spanish" className="text-black">Spanish</option>
-            <option value="French" className="text-black">French</option>
+            <option value="English" className="text-black">
+              English
+            </option>
+            <option value="Spanish" className="text-black">
+              Spanish
+            </option>
+            <option value="French" className="text-black">
+              French
+            </option>
           </select>
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
+
+          <ChevronDown
+            size={14}
+            strokeWidth={1.8}
+            className="pointer-events-none"
+          />
         </div>
       </div>
     </div>

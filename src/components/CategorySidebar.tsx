@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -12,7 +13,7 @@ interface CategorySidebarProps {
   onCategoryClick?: (category: string) => void;
 }
 
-const CategorySidebar: React.FC<CategorySidebarProps> = ({ 
+const CategorySidebar: React.FC<CategorySidebarProps> = ({
   categories = [
     { id: '1', name: "Woman's Fashion", slug: 'womens-fashion' },
     { id: '2', name: "Men's Fashion", slug: 'mens-fashion' },
@@ -27,29 +28,47 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
   onCategoryClick,
 }) => {
   return (
-    <div className="hidden lg:block w-56 flex-shrink-0">
-      <ul className="space-y-4">
+    <aside className="hidden lg:block w-[220px] flex-shrink-0">
+      <ul className="space-y-[18px]">
         {categories.map((category) => (
           <li key={category.id}>
             {onCategoryClick ? (
               <button
                 onClick={() => onCategoryClick(category.slug)}
-                className="w-full text-left text-sm text-gray-700 hover:text-primary-DEFAULT transition-colors font-medium"
+                className="group w-full flex items-center justify-between text-left text-[14px] leading-5 text-[#111827] hover:text-[#DB4444] transition-colors"
               >
-                {category.name}
+                <span>{category.name}</span>
+
+                {(category.slug === 'womens-fashion' ||
+                  category.slug === 'mens-fashion') && (
+                  <ChevronRight
+                    size={16}
+                    strokeWidth={1.8}
+                    className="text-black"
+                  />
+                )}
               </button>
             ) : (
               <Link
                 to={`/shop?category=${category.slug}`}
-                className="text-sm text-gray-700 hover:text-primary-DEFAULT transition-colors font-medium"
+                className="group flex items-center justify-between text-[14px] leading-5 text-[#111827] hover:text-[#DB4444] transition-colors"
               >
-                {category.name}
+                <span>{category.name}</span>
+
+                {(category.slug === 'womens-fashion' ||
+                  category.slug === 'mens-fashion') && (
+                  <ChevronRight
+                    size={16}
+                    strokeWidth={1.8}
+                    className="text-black"
+                  />
+                )}
               </Link>
             )}
           </li>
         ))}
       </ul>
-    </div>
+    </aside>
   );
 };
 
