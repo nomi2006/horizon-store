@@ -75,6 +75,16 @@
     background: #9ca3af;
   }
 }
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
 @layer components {
   .container-custom {
     width: 100%;
@@ -478,8 +488,3 @@
     width: 100%;
   }
 }
-/* @media (min-width: 1024px) {
-  .hero-banner {
-    height: 237px;
-  }
-} */
