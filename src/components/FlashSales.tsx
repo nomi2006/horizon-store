@@ -21,9 +21,9 @@ const FlashSales: React.FC<FlashSalesProps> = ({
   const sliderRef = useRef<HTMLDivElement>(null);
 
   /*
-   * Scroll one product-card width at a time.
-   * Card = 270px
+   * Product card = 270px
    * Gap = 30px
+   * One complete scroll step = 270 + 30 = 300px
    */
   const scrollLeft = () => {
     sliderRef.current?.scrollBy({
@@ -40,15 +40,21 @@ const FlashSales: React.FC<FlashSalesProps> = ({
   };
 
   return (
-    <section className="w-full bg-white pt-[10px] pb-[52px]">
-      <div className="max-w-[1170px] mx-auto px-4">
-
+    <section className="w-full bg-white">
+      <div
+        className="
+          w-full
+          max-w-[1308px]
+          mx-auto
+          px-0
+          pt-[44px]
+          pb-[52px]
+        "
+      >
         {/* ================= HEADER ================= */}
         <div className="flex items-end justify-between mb-[28px]">
-
           {/* LEFT SIDE */}
           <div className="flex items-end gap-[70px]">
-
             {/* TITLE */}
             <div>
               <div className="flex items-center gap-[10px] mb-[10px]">
@@ -88,14 +94,12 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               </h2>
             </div>
 
-            {/* FIXED DEADLINE COUNTDOWN */}
+            {/* COUNTDOWN */}
             <FlashSalesTimer />
-
           </div>
 
           {/* ================= ARROWS ================= */}
           <div className="flex items-center gap-[10px] pb-[2px]">
-
             <button
               type="button"
               onClick={scrollLeft}
@@ -145,7 +149,6 @@ const FlashSales: React.FC<FlashSalesProps> = ({
                 strokeWidth={1.8}
               />
             </button>
-
           </div>
         </div>
 
@@ -160,6 +163,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
             snap-x
             snap-mandatory
             pb-[8px]
+            w-full
           "
         >
           {products.map((product) => (
@@ -168,6 +172,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               className="
                 flex-none
                 w-[270px]
+                h-[350px]
                 snap-start
               "
             >
@@ -204,7 +209,6 @@ const FlashSales: React.FC<FlashSalesProps> = ({
             View All Products
           </Link>
         </div>
-
       </div>
     </section>
   );

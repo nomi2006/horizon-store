@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -30,8 +30,6 @@ export function HomePage() {
   const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const flashSalesRef = useRef(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,6 +37,12 @@ export function HomePage() {
           productService.getFeatured(),
           productService.getBestSellers(),
         ]);
+
+        console.log('FLASH SALES PRODUCTS:', featuredRes.data);
+        console.log(
+          'FLASH SALES COUNT:',
+          featuredRes.data?.length
+        );
 
         setFeatured(featuredRes.data || []);
         setBestSellers(bestRes.data || []);
@@ -78,15 +82,6 @@ export function HomePage() {
       icon: Gamepad2,
     },
   ];
-
-  const scrollFlashSales = (direction) => {
-    if (!flashSalesRef.current) return;
-
-    flashSalesRef.current.scrollBy({
-      left: direction === 'left' ? -250 : 250,
-      behavior: 'smooth',
-    });
-  };
 
   return (
     <div className="min-h-screen bg-white">
