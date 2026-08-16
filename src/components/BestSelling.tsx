@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import ProductCard from './ProductCard';
 
 interface BestSellingProps {
@@ -12,31 +13,46 @@ interface BestSellingProps {
 const BestSelling: React.FC<BestSellingProps> = ({
   products = [],
   title = 'Best Selling Products',
-  subtitle = 'Customer favorites you\'ll love',
+  subtitle = 'This Month',
   viewAllLink = '/shop',
 }) => {
-  // Figma shows exactly 4 products in this section
+  // Figma shows 4 products in this section
   const displayProducts = products.slice(0, 4);
 
   return (
-    <section className="w-full bg-[#F7F7F7] py-[70px]">
-      <div className="max-w-[1170px] mx-auto px-4">
+    <section className="w-full bg-white border-t border-[#E5E5E5]">
+      <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
 
         {/* ================= HEADER ================= */}
         <div className="flex items-end justify-between mb-[30px]">
 
-          {/* LEFT */}
+          {/* LEFT SIDE */}
           <div>
-            {/* Red section label */}
+            {/* RED LABEL */}
             <div className="flex items-center gap-[10px] mb-[14px]">
-              <span className="block w-[20px] h-[40px] bg-[#DB4444] rounded-[3px]" />
+              <span
+                className="
+                  block
+                  w-[20px]
+                  h-[40px]
+                  bg-[#DB4444]
+                  rounded-[3px]
+                "
+              />
 
-              <span className="text-[14px] font-semibold text-[#DB4444]">
-                This Month
+              <span
+                className="
+                  text-[14px]
+                  leading-[20px]
+                  font-semibold
+                  text-[#DB4444]
+                "
+              >
+                {subtitle}
               </span>
             </div>
 
-            {/* Title */}
+            {/* HEADING */}
             <h2
               className="
                 !m-0
@@ -49,12 +65,6 @@ const BestSelling: React.FC<BestSellingProps> = ({
             >
               {title}
             </h2>
-
-            {/* Keep subtitle functionality, but hide it visually
-                because it is not part of the Figma layout */}
-            <span className="sr-only">
-              {subtitle}
-            </span>
           </div>
 
           {/* VIEW ALL BUTTON */}
@@ -70,16 +80,19 @@ const BestSelling: React.FC<BestSellingProps> = ({
               bg-[#DB4444]
               text-white
               text-[14px]
+              leading-[20px]
               font-medium
               rounded-[4px]
               hover:bg-[#C73636]
               transition-colors
+              duration-200
             "
           >
-            View All
+            View All Products
           </Link>
         </div>
-{/* products */}
+
+        {/* ================= PRODUCTS ================= */}
         <div
           className="
             grid
@@ -92,11 +105,14 @@ const BestSelling: React.FC<BestSellingProps> = ({
           {displayProducts.map((product) => (
             <div
               key={product.id}
-              className="min-w-0"
+              className="
+                w-[270px]
+                h-[350px]
+              "
             >
               <ProductCard
                 product={product}
-                showSaleBadge={product.discountPercentage > 0}
+                showSaleBadge
               />
             </div>
           ))}

@@ -12,6 +12,7 @@ import NewArrival from '../components/NewArrival';
 import TopBar from '../components/TopBar';
 import FeaturesBar from '../components/FeaturesBar';
 import FlashSales from '../components/FlashSales';
+import BestSelling from '../components/BestSelling';
 
 import heroImage from '../assets/iphone.jpg';
 import appleLogo from '../assets/apple.png';
@@ -90,7 +91,7 @@ export function HomePage() {
       <Navbar />
 
       <main>
-{/* HERO */}
+        {/* HERO */}
         <section className="bg-white">
           <div className="max-w-[1170px] mx-auto px-4">
             <div className="flex">
@@ -197,41 +198,41 @@ export function HomePage() {
           viewAllLink="/shop"
         />
 
-{/* ================= BROWSE BY CATEGORY ================= */}
-<section className="w-full bg-white border-t border-[#E5E5E5]">
-  <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
+        {/* ================= BROWSE BY CATEGORY ================= */}
+        <section className="w-full bg-white border-t border-[#E5E5E5]">
+          <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
 
-    {/* ================= SECTION HEADER ================= */}
-    <div className="flex items-end justify-between mb-[30px]">
+            {/* ================= SECTION HEADER ================= */}
+            <div className="flex items-end justify-between mb-[30px]">
 
-      <div>
-        {/* RED LABEL */}
-        <div className="flex items-center gap-[10px] mb-[14px]">
-          <span
-            className="
+              <div>
+                {/* RED LABEL */}
+                <div className="flex items-center gap-[10px] mb-[14px]">
+                  <span
+                    className="
               block
               w-[20px]
               h-[40px]
               bg-[#DB4444]
               rounded-[3px]
             "
-          />
+                  />
 
-          <span
-            className="
+                  <span
+                    className="
               text-[14px]
               leading-[20px]
               font-semibold
               text-[#DB4444]
             "
-          >
-            Categories
-          </span>
-        </div>
+                  >
+                    Categories
+                  </span>
+                </div>
 
-        {/* HEADING */}
-        <h2
-          className="
+                {/* HEADING */}
+                <h2
+                  className="
             !m-0
             !p-0
             !text-[32px]
@@ -239,15 +240,15 @@ export function HomePage() {
             !font-semibold
             !text-black
           "
-        >
-          Browse By Category
-        </h2>
-      </div>
+                >
+                  Browse By Category
+                </h2>
+              </div>
 
-      {/* VIEW ALL */}
-      <Link
-        to="/shop"
-        className="
+              {/* VIEW ALL */}
+              <Link
+                to="/shop"
+                className="
           text-[14px]
           leading-[20px]
           text-[#DB4444]
@@ -255,31 +256,31 @@ export function HomePage() {
           transition-colors
           mb-[5px]
         "
-      >
-        View All →
-      </Link>
-    </div>
+              >
+                View All →
+              </Link>
+            </div>
 
-    {/* ================= CATEGORY CARDS ================= */}
-    <div
-      className="
+            {/* ================= CATEGORY CARDS ================= */}
+            <div
+              className="
         grid
         grid-cols-2
         sm:grid-cols-3
         lg:grid-cols-6
         gap-[30px]
       "
-    >
-      {categories.map((cat) => {
-        const Icon = cat.icon;
-        const isSelected = selectedCategory === cat.name;
+            >
+              {categories.map((cat) => {
+                const Icon = cat.icon;
+                const isSelected = selectedCategory === cat.name;
 
-        return (
-          <Link
-            key={cat.name}
-            to={`/shop?category=${cat.name.toLowerCase()}`}
-            onClick={() => setSelectedCategory(cat.name)}
-            className={`
+                return (
+                  <Link
+                    key={cat.name}
+                    to={`/shop?category=${cat.name.toLowerCase()}`}
+                    onClick={() => setSelectedCategory(cat.name)}
+                    className={`
               group
               h-[145px]
               flex
@@ -291,99 +292,66 @@ export function HomePage() {
               transition-all
               duration-200
 
-              ${
-                isSelected
-                  ? `
+              ${isSelected
+                        ? `
                     bg-[#DB4444]
                     border-[#DB4444]
                     text-white
                   `
-                  : `
+                        : `
                     bg-white
                     border-[#E5E5E5]
                     text-black
                     hover:border-[#DB4444]
                     hover:text-[#DB4444]
                   `
-              }
+                      }
             `}
-          >
-            {/* CATEGORY ICON */}
-            <Icon
-              size={40}
-              strokeWidth={1.5}
-              className={`
+                  >
+                    {/* CATEGORY ICON */}
+                    <Icon
+                      size={40}
+                      strokeWidth={1.5}
+                      className={`
                 mb-[18px]
                 transition-colors
                 duration-200
-                ${
-                  isSelected
-                    ? 'text-white'
-                    : 'text-black group-hover:text-[#DB4444]'
-                }
+                ${isSelected
+                          ? 'text-white'
+                          : 'text-black group-hover:text-[#DB4444]'
+                        }
               `}
-            />
+                    />
 
-            {/* CATEGORY NAME */}
-            <span
-              className={`
+                    {/* CATEGORY NAME */}
+                    <span
+                      className={`
                 text-[14px]
                 leading-[20px]
                 transition-colors
                 duration-200
-                ${
-                  isSelected
-                    ? 'text-white'
-                    : 'text-black'
-                }
+                ${isSelected
+                          ? 'text-white'
+                          : 'text-black'
+                        }
               `}
-            >
-              {cat.name}
-            </span>
-          </Link>
-        );
-      })}
-    </div>
-
-  </div>
-</section>
-        {/* ================= BEST SELLING PRODUCTS ================= */}
-        <section className="py-12 md:py-16 bg-gray-50">
-          <div className="max-w-[1170px] mx-auto px-4">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-                  Best Selling Products
-                </h2>
-
-                <p className="text-sm text-gray-500 mt-1">
-                  Customer favorites you'll love
-                </p>
-              </div>
-
-              <Link
-                to="/shop"
-                className="text-sm text-[#DB4444] hover:text-red-700"
-              >
-                View All →
-              </Link>
+                    >
+                      {cat.name}
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
 
-            {loading ? (
-              <LoadingSpinner />
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[30px]">
-                {bestSellers.slice(0, 4).map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    showSaleBadge
-                  />
-                ))}
-              </div>
-            )}
           </div>
         </section>
+        {/* ================= BEST SELLING PRODUCTS ================= */}
+        <BestSelling
+          products={bestSellers}
+          title="Best Selling Products"
+          subtitle="This Month"
+          viewAllLink="/shop"
+        />
 
         <MusicBanner />
         <NewArrival />
