@@ -2,64 +2,61 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import speakerImage from "../assets/speaker.png";
 
+interface TimeLeft {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 const MusicBanner: React.FC = () => {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 5,
-    hours: 23,
-    minutes: 59,
-    seconds: 35,
-  });
+  /*
+   * Fixed deadline.
+   * Change this date whenever you want to configure a new sale.
+   */
+  const SALE_END_DATE = "2026-08-22T23:59:59+05:00";
+
+  const calculateTimeLeft = (): TimeLeft => {
+    const difference =
+      new Date(SALE_END_DATE).getTime() - Date.now();
+
+    if (difference <= 0) {
+      return {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+      };
+    }
+
+    return {
+      days: Math.floor(
+        difference / (1000 * 60 * 60 * 24)
+      ),
+
+      hours: Math.floor(
+        (difference / (1000 * 60 * 60)) % 24
+      ),
+
+      minutes: Math.floor(
+        (difference / (1000 * 60)) % 60
+      ),
+
+      seconds: Math.floor(
+        (difference / 1000) % 60
+      ),
+    };
+  };
+
+  const [timeLeft, setTimeLeft] =
+    useState<TimeLeft>(calculateTimeLeft);
 
   useEffect(() => {
-    const saleEnd = new Date();
+    const timer = window.setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
 
-    saleEnd.setDate(saleEnd.getDate() + 5);
-    saleEnd.setHours(23, 59, 59, 999);
-
-    const updateTimer = () => {
-      const difference = saleEnd.getTime() - Date.now();
-
-      if (difference <= 0) {
-        setTimeLeft({
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0,
-        });
-        return;
-      }
-
-      const days = Math.floor(
-        difference / (1000 * 60 * 60 * 24)
-      );
-
-      const hours = Math.floor(
-        (difference % (1000 * 60 * 60 * 24)) /
-          (1000 * 60 * 60)
-      );
-
-      const minutes = Math.floor(
-        (difference % (1000 * 60 * 60)) /
-          (1000 * 60)
-      );
-
-      const seconds = Math.floor(
-        (difference % (1000 * 60)) / 1000
-      );
-
-      setTimeLeft({
-        days,
-        hours,
-        minutes,
-        seconds,
-      });
-    };
-
-    updateTimer();
-
-    const interval = window.setInterval(updateTimer, 1000);
-
-    return () => window.clearInterval(interval);
+    return () => window.clearInterval(timer);
   }, []);
 
   const timerItems = [
@@ -82,10 +79,24 @@ const MusicBanner: React.FC = () => {
   ];
 
   return (
-    <section className="w-full bg-white">
-      {/*  MUSIC BANNER AREA  */}
-      <div className="relative w-[1170px] h-[570px] mx-auto">
-        {/*  BANNER  */}
+    <section
+      className="
+        w-full
+        bg-white
+        py-0
+      "
+    >
+
+      <div
+        className="
+          relative
+          w-full
+          max-w-[1170px]
+          h-[570px]
+          mx-auto
+        "
+      >
+
         <div
           className="
             absolute
@@ -93,11 +104,12 @@ const MusicBanner: React.FC = () => {
             left-0
             w-[1170px]
             h-[500px]
-            bg-black
+            max-w-full
+            bg-[#050505]
             overflow-hidden
           "
         >
-         
+
           <div
             className="
               absolute
@@ -110,6 +122,7 @@ const MusicBanner: React.FC = () => {
               bg-[#181818]
             "
           >
+
             <div
               className="
                 absolute
@@ -121,25 +134,27 @@ const MusicBanner: React.FC = () => {
               "
             >
               <img
-                src={speakerImage}
-                alt="Premium speaker"
-                draggable={false}
-                className="
-                  absolute
-                  max-w-none
-                  object-contain
-                  select-none
-                "
-                style={{
-                  width: "2200px",
-                  height: "auto",
-                  left: "50%",
-                  top: "50%",
-                  transform: "translate(-50%, -50%)",
-                }}
-              />
+  src={speakerImage}
+  alt="Premium speaker"
+  draggable={false}
+  className="
+    absolute
+    select-none
+    pointer-events-none
+    object-contain
+  "
+  style={{
+    width: "900px",
+    height: "520px",
+    maxWidth: "none",
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
+  }}
+/>
             </div>
           </div>
+          {/* CATEGORIES */}
 
           <span
             className="
@@ -148,12 +163,12 @@ const MusicBanner: React.FC = () => {
               left-[56px]
               w-[90px]
               h-[20px]
-              text-[#00FF66]
+              text-[#00F568]
               whitespace-nowrap
             "
             style={{
               fontFamily: "Poppins, sans-serif",
-              fontSize: "16px",
+              fontSize: "15px",
               fontWeight: 600,
               lineHeight: "20px",
               letterSpacing: "0%",
@@ -228,6 +243,7 @@ const MusicBanner: React.FC = () => {
                 "
               >
                 {/* VALUE */}
+
                 <span
                   className="
                     absolute
@@ -242,7 +258,8 @@ const MusicBanner: React.FC = () => {
                     whitespace-nowrap
                   "
                   style={{
-                    fontFamily: "Poppins, sans-serif",
+                    fontFamily:
+                      "Poppins, sans-serif",
                     fontSize: "16px",
                     fontWeight: 600,
                     lineHeight: "20px",
@@ -253,6 +270,7 @@ const MusicBanner: React.FC = () => {
                 </span>
 
                 {/* LABEL */}
+
                 <span
                   className="
                     absolute
@@ -266,7 +284,8 @@ const MusicBanner: React.FC = () => {
                     whitespace-nowrap
                   "
                   style={{
-                    fontFamily: "Poppins, sans-serif",
+                    fontFamily:
+                      "Poppins, sans-serif",
                     fontSize: "11px",
                     fontWeight: 400,
                     lineHeight: "18px",
@@ -291,13 +310,17 @@ const MusicBanner: React.FC = () => {
               items-center
               justify-center
               rounded-[4px]
-              bg-[#00FF66]
+              bg-[#00F568]
               text-black
               no-underline
               whitespace-nowrap
+              transition-colors
+              duration-200
+              hover:bg-white
             "
             style={{
-              fontFamily: "Poppins, sans-serif",
+              fontFamily:
+                "Poppins, sans-serif",
               fontSize: "16px",
               fontWeight: 500,
               lineHeight: "24px",

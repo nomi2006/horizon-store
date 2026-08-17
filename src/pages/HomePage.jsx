@@ -5,14 +5,15 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { productService } from '../services/productService';
 import ProductCard from '../components/ProductCard';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import TopBar from '../components/TopBar';
 import Navbar from '../components/Navbar';
 import CategorySidebar from '../components/CategorySidebar';
-import MusicBanner from '../components/MusicBanner';
-import NewArrival from '../components/NewArrival';
-import TopBar from '../components/TopBar';
 import FeaturesBar from '../components/FeaturesBar';
-import FlashSales from '../components/FlashSales';
 import BestSelling from '../components/BestSelling';
+import FlashSales from '../components/FlashSales';
+import MusicBanner from '../components/MusicBanner';
+import ExploreProducts from '../components/ExploreProducts';
+import NewArrival from '../components/NewArrival';
 
 import heroImage from '../assets/iphone.jpg';
 import appleLogo from '../assets/apple.png';
@@ -190,7 +191,7 @@ export function HomePage() {
           </div>
         </section>
 
-        {/* ================= FLASH SALES ================= */}
+        {/*  FLASH SALES  */}
         <FlashSales
           products={featured}
           title="Flash Sales"
@@ -198,11 +199,11 @@ export function HomePage() {
           viewAllLink="/shop"
         />
 
-        {/* ================= BROWSE BY CATEGORY ================= */}
+        {/*  BROWSE BY CATEGORY  */}
         <section className="w-full bg-white border-t border-[#E5E5E5]">
           <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
 
-            {/* ================= SECTION HEADER ================= */}
+            {/*  SECTION HEADER  */}
             <div className="flex items-end justify-between mb-[30px]">
 
               <div>
@@ -261,7 +262,7 @@ export function HomePage() {
               </Link>
             </div>
 
-            {/* ================= CATEGORY CARDS ================= */}
+            {/*  CATEGORY CARDS  */}
             <div
               className="
         grid
@@ -345,7 +346,7 @@ export function HomePage() {
 
           </div>
         </section>
-        {/* ================= BEST SELLING PRODUCTS ================= */}
+        {/*  BEST SELLING PRODUCTS  */}
         <BestSelling
           products={bestSellers}
           title="Best Selling Products"
@@ -354,7 +355,9 @@ export function HomePage() {
         />
 
         <MusicBanner />
+        <ExploreProducts products={featured} />
         <NewArrival />
+
         <FeaturesBar />
       </main>
     </div>

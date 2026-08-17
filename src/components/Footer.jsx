@@ -1,174 +1,536 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { 
-  ClockIcon, 
-  EnvelopeIcon, 
-  PhoneIcon, 
-  MapPinIcon
-} from '@heroicons/react/24/outline'
-import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react'
+import React from "react";
+import { Link } from "react-router-dom";
+import { Send, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
-
-  const quickLinks = [
-    { label: 'About Us', href: '/about' },
-    { label: 'Contact', href: '/contact' },
-    { label: 'Shop', href: '/shop' },
-    { label: 'Terms & Conditions', href: '/terms' },
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Returns Policy', href: '/returns' }
-  ]
-
-  const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Youtube, href: '#', label: 'Youtube' }
-  ]
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-dark-700">
-      <div className="container-custom py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <ClockIcon className="h-7 w-7 text-primary-600" />
-              <span className="text-xl font-bold text-primary-900 dark:text-white">Horizon</span>
-            </Link>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Elevate your style with our premium collection of watches, accessories, and more.
-            </p>
-            <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <div className="flex items-center gap-2">
-                <EnvelopeIcon className="h-4 w-4" />
-                <span>hello@horizon.com</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <PhoneIcon className="h-4 w-4" />
-                <span>+1 (555) 000-0000</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPinIcon className="h-4 w-4" />
-                <span>123 Commerce St, New York, NY 10001</span>
-              </div>
-            </div>
-          </div>
+    <footer
+      className="
+        relative
+        w-full
+        h-[440px]
+        bg-black
+        text-white
+        overflow-hidden
+      "
+    >
+      {/* ================= MAIN FOOTER CONTENT ================= */}
+      <div
+        className="
+          w-[1170px]
+          h-[236px]
+          mx-auto
+          pt-[80px]
+          grid
+          grid-cols-[217px_286px_212px_1fr]
+          gap-[87px]
+        "
+      >
+        {/* ================= EXCLUSIVE ================= */}
+        <div className="w-[217px] h-[188px]">
+          <h3
+            className="
+              m-0
+              p-0
+              text-[24px]
+              leading-[28px]
+              font-semibold
+              text-white
+              mb-[24px]
+            "
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 600,
+            }}
+          >
+            Exclusive
+          </h3>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <h4
+            className="
+              m-0
+              p-0
+              text-[20px]
+              leading-[24px]
+              font-medium
+              text-white
+              mb-[16px]
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 500,
+            }}
+          >
+            Subscribe
+          </h4>
 
-          {/* Customer Service */}
-          <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Customer Service</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/contact"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                >
-                  Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/faq"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/shipping"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                >
-                  Shipping Information
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/returns"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                >
-                  Returns & Exchanges
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <p
+            className="
+              m-0
+              p-0
+              text-[16px]
+              leading-[24px]
+              font-normal
+              text-white
+              mb-[16px]
+              whitespace-nowrap
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 400,
+            }}
+          >
+            Get 10% off your first order
+          </p>
 
-          {/* Newsletter */}
-          <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Newsletter</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Subscribe to get special offers, new arrivals, and exclusive discounts.
-            </p>
-            <form className="space-y-3">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="w-full rounded-lg border border-gray-300 dark:border-dark-600 px-4 py-2.5 bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-700 outline-none transition-all"
+          {/* EMAIL INPUT */}
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="
+              relative
+              w-[217px]
+              h-[48px]
+              border
+              border-white
+              rounded-[4px]
+              overflow-hidden
+            "
+          >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              aria-label="Email address"
+              className="
+                w-full
+                h-full
+                bg-transparent
+                outline-none
+                border-none
+                px-[16px]
+                pr-[48px]
+                text-white
+                text-[16px]
+                placeholder:text-[#7A7A7A]
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            />
+
+            <button
+              type="submit"
+              aria-label="Subscribe"
+              className="
+                absolute
+                right-[10px]
+                top-1/2
+                -translate-y-1/2
+                flex
+                items-center
+                justify-center
+                text-white
+                cursor-pointer
+                bg-transparent
+                border-none
+                p-0
+              "
+            >
+              <Send
+                size={24}
+                strokeWidth={1.5}
               />
-              <button
-                type="submit"
-                className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all"
-              >
-                Subscribe
-              </button>
-            </form>
-            <div className="flex gap-3 mt-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  className="p-2 rounded-lg bg-gray-100 dark:bg-dark-800 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors"
-                  aria-label={social.label}
-                >
-                  <social.icon className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-                </a>
-              ))}
-            </div>
+            </button>
+          </form>
+        </div>
+
+        {/* ================= SUPPORT ================= */}
+        <div className="w-[286px]">
+          <h3
+            className="
+              m-0
+              p-0
+              text-[20px]
+              leading-[28px]
+              font-medium
+              text-white
+              mb-[16px]
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 500,
+            }}
+          >
+            Support
+          </h3>
+
+          <p
+            className="
+              m-0
+              p-0
+              text-[16px]
+              leading-[24px]
+              text-white
+              font-normal
+              mb-[16px]
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 400,
+            }}
+          >
+            111 Phase 01, Karachi,
+            <br />
+            DHA 1515, Pakistan.
+          </p>
+
+          <p
+            className="
+              m-0
+              p-0
+              text-[16px]
+              leading-[24px]
+              text-white
+              font-normal
+              mb-[16px]
+              whitespace-nowrap
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 400,
+            }}
+          >
+            muhammadnomanshahzad726@gmail.com
+          </p>
+
+          <p
+            className="
+              m-0
+              p-0
+              text-[16px]
+              leading-[24px]
+              text-white
+              font-normal
+              whitespace-nowrap
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 400,
+            }}
+          >
+            +88015-88888-9999
+          </p>
+        </div>
+
+        {/* ================= ACCOUNT ================= */}
+        <div className="w-[212px]">
+          <h3
+            className="
+              m-0
+              p-0
+              text-[20px]
+              leading-[28px]
+              font-medium
+              text-white
+              mb-[16px]
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 500,
+            }}
+          >
+            Account
+          </h3>
+
+          <div className="flex flex-col gap-[16px]">
+            <Link
+              to="/account"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              My Account
+            </Link>
+
+            <Link
+              to="/login"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Login / Register
+            </Link>
+
+            <Link
+              to="/cart"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Cart
+            </Link>
+
+            <Link
+              to="/wishlist"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Wishlist
+            </Link>
+
+            <Link
+              to="/shop"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Shop
+            </Link>
           </div>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-dark-700 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            &copy; {currentYear} Horizon. All rights reserved.
-          </p>
-          <div className="flex items-center gap-6">
-            <span className="text-sm text-gray-600 dark:text-gray-400">Payment Methods:</span>
-            <div className="flex gap-2">
-              <span className="px-2 py-1 bg-gray-100 dark:bg-dark-800 rounded text-xs font-medium text-gray-600 dark:text-gray-400">
-                Visa
-              </span>
-              <span className="px-2 py-1 bg-gray-100 dark:bg-dark-800 rounded text-xs font-medium text-gray-600 dark:text-gray-400">
-                Mastercard
-              </span>
-              <span className="px-2 py-1 bg-gray-100 dark:bg-dark-800 rounded text-xs font-medium text-gray-600 dark:text-gray-400">
-                PayPal
-              </span>
-              <span className="px-2 py-1 bg-gray-100 dark:bg-dark-800 rounded text-xs font-medium text-gray-600 dark:text-gray-400">
-                Stripe
-              </span>
-            </div>
+        {/* ================= QUICK LINK ================= */}
+        <div className="w-full">
+          <h3
+            className="
+              m-0
+              p-0
+              text-[20px]
+              leading-[28px]
+              font-medium
+              text-white
+              mb-[16px]
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 500,
+            }}
+          >
+            Quick Link
+          </h3>
+
+          <div className="flex flex-col gap-[16px]">
+            <Link
+              to="/privacy"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Privacy Policy
+            </Link>
+
+            <Link
+              to="/terms"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Terms Of Use
+            </Link>
+
+            <Link
+              to="/faq"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              FAQ
+            </Link>
+
+            <Link
+              to="/contact"
+              className="
+                text-[16px]
+                leading-[24px]
+                text-white
+                no-underline
+                hover:text-gray-300
+                transition-colors
+              "
+              style={{
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Contact
+            </Link>
+          </div>
+
+          {/* ================= SOCIAL ICONS ================= */}
+          <div className="flex items-center gap-[24px] mt-[28px]">
+            <a
+              href="#"
+              aria-label="Facebook"
+              className="
+                text-white
+                hover:text-gray-300
+                transition-colors
+                cursor-pointer
+              "
+            >
+              <Facebook size={20} strokeWidth={1.8} />
+            </a>
+
+            <a
+              href="#"
+              aria-label="Twitter"
+              className="
+                text-white
+                hover:text-gray-300
+                transition-colors
+                cursor-pointer
+              "
+            >
+              <Twitter size={20} strokeWidth={1.8} />
+            </a>
+
+            <a
+              href="#"
+              aria-label="Instagram"
+              className="
+                text-white
+                hover:text-gray-300
+                transition-colors
+                cursor-pointer
+              "
+            >
+              <Instagram size={20} strokeWidth={1.8} />
+            </a>
+
+            <a
+              href="#"
+              aria-label="LinkedIn"
+              className="
+                text-white
+                hover:text-gray-300
+                transition-colors
+                cursor-pointer
+              "
+            >
+              <Linkedin size={20} strokeWidth={1.8} />
+            </a>
           </div>
         </div>
       </div>
+
+      {/* ================= COPYRIGHT ================= */}
+      <div
+        className="
+          absolute
+          left-0
+          bottom-0
+          w-full
+          h-[60px]
+          bg-black
+          border-t
+          border-[#2A2A2A]
+        "
+      >
+        <div
+          className="
+            w-[1170px]
+            h-full
+            mx-auto
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <p
+            className="
+              m-0
+              p-0
+              text-[16px]
+              leading-[24px]
+              text-[#666666]
+              font-normal
+            "
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 400,
+            }}
+          >
+            © Copyright Horizon {currentYear}. All right reserved
+          </p>
+        </div>
+      </div>
     </footer>
-  )
+  );
 }
+
+export default Footer;

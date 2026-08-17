@@ -23,7 +23,7 @@ const BestSelling: React.FC<BestSellingProps> = ({
     <section className="w-full bg-white border-t border-[#E5E5E5]">
       <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
 
-        {/* ================= HEADER ================= */}
+        {/*  HEADER  */}
         <div className="flex items-end justify-between mb-[30px]">
 
           {/* LEFT SIDE */}
@@ -92,7 +92,7 @@ const BestSelling: React.FC<BestSellingProps> = ({
           </Link>
         </div>
 
-        {/* ================= PRODUCTS ================= */}
+        {/*  PRODUCTS  */}
         <div
           className="
             grid
