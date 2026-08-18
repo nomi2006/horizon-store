@@ -434,7 +434,7 @@ export function Footer() {
           {/* ================= SOCIAL ICONS ================= */}
           <div className="flex items-center gap-[24px] mt-[28px]">
             <a
-              href="#"
+              href="https://www.facebook.com/profile.php?id=100074061113250"
               aria-label="Facebook"
               className="
                 text-white
@@ -447,7 +447,7 @@ export function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://x.com/noman51255"
               aria-label="Twitter"
               className="
                 text-white
@@ -460,7 +460,7 @@ export function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://www.instagram.com/nomantanoli__?igsh=OGd6azFqdjgwcmo4"
               aria-label="Instagram"
               className="
                 text-white
@@ -473,7 +473,7 @@ export function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://www.linkedin.com/in/noman-shahzad-28a848291?utm_source=share_via&utm_content=profile&utm_medium=member_android"
               aria-label="LinkedIn"
               className="
                 text-white

@@ -20,6 +20,8 @@ interface ProductCardProps {
 
     rating?: number;
     reviewCount?: number;
+    review_count?: number;
+
     discountPercentage?: number;
     isNew?: boolean;
     slug?: string;
@@ -28,7 +30,60 @@ interface ProductCardProps {
   showSaleBadge?: boolean;
   showNewBadge?: boolean;
   className?: string;
-}
+};
+
+const productRatings: Record<
+  string,
+  {
+    rating: number;
+    reviewCount: number;
+  }
+> = {
+  'D-Smart Watch': {
+    rating: 5,
+    reviewCount: 124,
+  },
+
+  'Leather Strap Collection': {
+    rating: 4,
+    reviewCount: 86,
+  },
+
+  'Luxury Chronograph Watch': {
+    rating: 5,
+    reviewCount: 156,
+  },
+
+  'Smart Watch Pro': {
+    rating: 4,
+    reviewCount: 98,
+  },
+
+  'Canvas Messenger Bag': {
+    rating: 3,
+    reviewCount: 72,
+  },
+
+  'Minimalist Classic Watch': {
+    rating: 5,
+    reviewCount: 143,
+  },
+
+  'Sport Chronograph Watch': {
+    rating: 4,
+    reviewCount: 67,
+  },
+
+  'Smart Watch': {
+    rating: 5,
+    reviewCount: 189,
+  },
+};
+
+const defaultRating = {
+  rating: 4,
+  reviewCount: 50,
+};
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -39,39 +94,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { addToCart } = useCart();
   const { user } = useAuth();
 
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] =
+    useState(false);
 
-  /*
-   * PRODUCT IMAGE
-   * Supports all existing image field formats without changing
-   * the current API/database structure.
-   */
+  // PRODUCT IMAGE LOGIC
   const getProductImage = (): string | null => {
-    // 1. Standard image field
     if (
       typeof product.image === 'string' &&
       product.image.trim()
     ) {
       return product.image.trim();
     }
-
-    // 2. Supabase image_url field
     if (
       typeof product.image_url === 'string' &&
       product.image_url.trim()
     ) {
       return product.image_url.trim();
     }
-
-    // 3. camelCase imageUrl field
     if (
       typeof product.imageUrl === 'string' &&
       product.imageUrl.trim()
     ) {
       return product.imageUrl.trim();
     }
-
-    // 4. Images array
     if (
       Array.isArray(product.images) &&
       product.images.length > 0
@@ -91,7 +136,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const imageUrl = getProductImage();
 
-  // ADD TO CART
+  // ADD TO CART LOGIC
   const handleAddToCart = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -107,23 +152,45 @@ const ProductCard: React.FC<ProductCardProps> = ({
     try {
       await addToCart(product.id, 1);
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      console.error(
+        'Error adding to cart:',
+        error
+      );
     } finally {
       setIsAddingToCart(false);
     }
   };
-  // DISCOUNT
+
+  // DISCOUNT LOGIC
   const discountPercentage =
     product.discountPercentage ||
     (product.originalPrice
       ? Math.round(
-        ((product.originalPrice - product.price) /
-          product.originalPrice) *
-        100
-      )
+          ((product.originalPrice - product.price) /
+            product.originalPrice) *
+            100
+        )
       : 0);
 
-  const rating = Math.round(product.rating || 0);
+  const fallbackRating =
+    productRatings[product.name] ||
+    defaultRating;
+
+  const rating =
+    typeof product.rating === 'number' &&
+    product.rating > 0
+      ? Math.min(5, product.rating)
+      : fallbackRating.rating;
+
+
+  const reviewCount =
+    typeof product.reviewCount === 'number' &&
+    product.reviewCount > 0
+      ? product.reviewCount
+      : typeof product.review_count === 'number' &&
+        product.review_count > 0
+      ? product.review_count
+      : fallbackRating.reviewCount;
 
   return (
     <Link
@@ -137,7 +204,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         ${className}
       `}
     >
-      {/* ================= IMAGE AREA ================= */}
+      {/* IMAGE AREA */}
       <div
         className="
           relative
@@ -146,11 +213,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
           rounded-[4px]
           bg-[#F5F5F5]
           overflow-hidden
-          "
-      >      
-        {/* SALE/NEW BADGE */}
+        "
+      >
+
+{/* SALE/ NEW BADGE */}
         {(showSaleBadge && discountPercentage > 0) ||
-          showNewBadge ? (
+        showNewBadge ? (
           <div
             className="
               absolute
@@ -198,7 +266,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
             )}
           </div>
         ) : null}
-        {/* WISHLIST/VIEW BUTTON */}
+
+{/* WISHLIST/ VIEW BUTTONS */}
         <div
           className="
             absolute
@@ -210,6 +279,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             gap-[8px]
           "
         >
+
           {/* Wishlist */}
           <button
             type="button"
@@ -267,49 +337,52 @@ const ProductCard: React.FC<ProductCardProps> = ({
               strokeWidth={1.7}
             />
           </button>
+
         </div>
-       {/* ================= PRODUCT IMAGE ================= */}
-{imageUrl ? (
-  <img
-    src={imageUrl}
-    alt={product.name}
-    className="
-      absolute
-      left-[40px]
-      top-[35px]
-      w-[190px]
-      h-[180px]
-      object-contain
-      object-center
-      mix-blend-multiply
-      transition-transform
-      duration-300
-      group-hover:scale-105
-    "
-    loading="lazy"
-    onError={(e) => {
-      e.currentTarget.style.display = 'none';
-    }}
-  />
-) : (
-  <div
-    className="
-      absolute
-      left-[40px]
-      top-[35px]
-      w-[190px]
-      h-[180px]
-      flex
-      items-center
-      justify-center
-      text-[13px]
-      text-gray-400
-    "
-  >
-    No Image
-  </div>
-)}
-        {/* ADD TO CART */}
+{/* PRODUCTS IMAGES */}
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={product.name}
+            className="
+              absolute
+              left-[40px]
+              top-[35px]
+              w-[190px]
+              h-[180px]
+              object-contain
+              object-center
+              mix-blend-multiply
+              transition-transform
+              duration-300
+              group-hover:scale-105
+            "
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display =
+                'none';
+            }}
+          />
+        ) : (
+          <div
+            className="
+              absolute
+              left-[40px]
+              top-[35px]
+              w-[190px]
+              h-[180px]
+              flex
+              items-center
+              justify-center
+              text-[13px]
+              text-gray-400
+            "
+          >
+            No Image
+          </div>
+        )}
+
+{/* ADD TO CART */}
         <button
           type="button"
           onClick={handleAddToCart}
@@ -343,7 +416,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
             : 'Add To Cart'}
         </button>
       </div>
-      {/* PRODUCT INFORMATION */}
+
+{/* PRODUCT DETAILS AREA */}
       <div
         className="
           w-[270px]
@@ -351,7 +425,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           pt-[14px]
         "
       >
-        {/* Product name */}
         <h3
           className="
             !m-0
@@ -365,7 +438,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         >
           {product.name}
         </h3>
-        {/* PRICE */}
         <div
           className="
             flex
@@ -386,7 +458,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </span>
 
           {product.originalPrice &&
-            product.originalPrice > product.price ? (
+          product.originalPrice > product.price ? (
             <span
               className="
                 text-[13px]
@@ -399,53 +471,67 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </span>
           ) : null}
         </div>
-        {/* RAITING */}
-        {product.rating !== undefined ? (
+
+        <div
+          className="
+            flex
+            items-center
+            gap-[7px]
+            mt-[3px]
+          "
+        >
+
+          {/* STARS */}
           <div
             className="
               flex
               items-center
-              gap-[7px]
-              mt-[3px]
+              gap-[2px]
+              h-[18px]
+            "
+            aria-label={`Rating ${rating} out of 5`}
+          >
+            {[1, 2, 3, 4, 5].map(
+              (star) => {
+                const isFilled =
+                  rating >= star;
+
+                return (
+                  <span
+                    key={star}
+                    className="
+                      text-[15px]
+                      leading-[18px]
+                      inline-block
+                    "
+                  >
+                    <span
+                      className={
+                        isFilled
+                          ? 'text-[#FFAD33]'
+                          : 'text-[#D9D9D9]'
+                      }
+                    >
+                      ★
+                    </span>
+                  </span>
+                );
+              }
+            )}
+          </div>
+
+          {/* REVIEW COUNT */}
+          <span
+            className="
+              text-[12px]
+              leading-[16px]
+              text-[#7D7D7D]
             "
           >
-            <div
-              className="
-                flex
-                items-center
-                gap-[2px]
-              "
-            >
-              {[0, 1, 2, 3, 4].map((index) => (
-                <span
-                  key={index}
-                  className={`
-                    text-[14px]
-                    leading-none
-                    ${index < rating
-                      ? 'text-[#FFAD33]'
-                      : 'text-[#D9D9D9]'
-                    }
-                  `}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
+            ({reviewCount})
+          </span>
 
-            {product.reviewCount !== undefined ? (
-              <span
-                className="
-                  text-[12px]
-                  leading-[16px]
-                  text-[#7D7D7D]
-                "
-              >
-                ({product.reviewCount})
-              </span>
-            ) : null}
-          </div>
-        ) : null}
+        </div>
       </div>
     </Link>
   );

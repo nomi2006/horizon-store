@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const SALE_END_DATE = '2026-08-15T23:59:59+05:00';
+const SALE_END_DATE = '2026-08-25T23:59:59+05:00';
 
 interface TimeLeft {
   days: number;
