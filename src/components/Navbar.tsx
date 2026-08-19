@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
     { name: 'Home', path: '/' },
     { name: 'Contact', path: '/contact' },
     { name: 'About', path: '/about' },
-    { name: user ? 'Logout' : 'Sign Up', path: user ? '#' : '/login' },
+    { name: user ? 'Logout' : 'Sign Up', path: user ? '#' : '/register' },
   ];
 
   const handleNavClick = (e: React.MouseEvent, link: { name: string; path: string }) => {
