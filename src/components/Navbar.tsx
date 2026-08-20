@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 h-[72px]">
-        <div className="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-0 h-full">
           <div className="flex items-center justify-between h-full">
             <Link to="/" className="flex-shrink-0">
               <span className="text-2xl font-bold text-gray-900 tracking-tight hover:text-gray-700 transition-colors duration-200">
@@ -198,7 +198,7 @@ const Navbar: React.FC = () => {
         </div>
 
         {isMenuOpen && (
-          <div ref={menuRef} className="md:hidden bg-white border-t border-gray-200 shadow-lg animate-slide-down">
+          <div ref={menuRef} className="mobile-nav-panel md:hidden bg-white border-t border-gray-200 shadow-lg animate-slide-down">
             <div className="max-w-[1170px] mx-auto px-4 py-4">
               <div className="flex flex-col gap-3">
                 <form onSubmit={handleSearch} className="flex items-center mb-2">

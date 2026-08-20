@@ -8,7 +8,7 @@ import PerfumePic from "../assets/perfume.png"
 const NewArrival: React.FC = () => {
   return (
     <section className="w-full bg-white">
-      <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
+      <div className="max-w-[1170px] mx-auto px-4 lg:px-0 pt-10 md:pt-[70px] pb-10 md:pb-[70px]">
 
         {/* SECTION HEADING */}
         <div className="flex items-center gap-[18px] mb-[60px]">
@@ -41,7 +41,7 @@ const NewArrival: React.FC = () => {
 
         {/* NEW ARRIVAL GRID */}
         <div
-          className="
+          className="new-arrival-grid
             grid
             grid-cols-1
             lg:grid-cols-[570px_570px]
@@ -169,7 +169,7 @@ const NewArrival: React.FC = () => {
                 relative
                 block
                 w-full
-                h-[285px]
+                h-[260px] sm:h-[285px]
                 overflow-hidden
                 rounded-[4px]
                 bg-[#0D0D0D]
@@ -285,7 +285,7 @@ const NewArrival: React.FC = () => {
                   relative
                   block
                   w-full
-                  h-[285px]
+                  h-[260px] sm:h-[285px]
                   overflow-hidden
                   rounded-[4px]
                   bg-[#1A1A1A]
@@ -389,7 +389,7 @@ const NewArrival: React.FC = () => {
                   relative
                   block
                   w-full
-                  h-[285px]
+                  h-[260px] sm:h-[285px]
                   overflow-hidden
                   rounded-[4px]
                   bg-[#1A1A1A]

@@ -6,9 +6,9 @@ const TopBar: React.FC = () => {
 
   return (
     <div className="w-full bg-[#1A1A1A] text-white h-[36px]">
-      <div className="max-w-[1170px] h-full mx-auto px-4 flex items-center justify-between">
+      <div className="max-w-[1170px] h-full mx-auto px-4 lg:px-0 flex items-center justify-between">
         
-        <div className="flex-1 text-center text-[12px] leading-none">
+        <div className="topbar-message flex-1 text-center text-[12px] leading-none">
           <span>
             Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
           </span>

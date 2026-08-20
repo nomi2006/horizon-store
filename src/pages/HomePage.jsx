@@ -94,19 +94,19 @@ export function HomePage() {
       <main>
         {/* HERO */}
         <section className="bg-white">
-          <div className="max-w-[1170px] mx-auto px-4">
-            <div className="flex">
+          <div className="max-w-[1170px] mx-auto px-4 lg:px-0">
+            <div className="home-hero flex flex-col lg:flex-row">
               <div className="hidden lg:block w-[255px] flex-shrink-0 pt-[32px] pr-[20px]">
                 <CategorySidebar />
               </div>
 
               <div className="hidden lg:block w-px bg-[#E5E5E5]" />
 
-              <div className="pl-[30px] pt-[27px]">
+              <div className="home-hero-content w-full min-w-0 pt-4 lg:pl-[30px] lg:pt-[27px]">
                 <div
                   className="relative bg-black overflow-hidden"
                   style={{
-                    width: '892px',
+                    width: '100%',
                     height: '344px',
                   }}
                 >
@@ -169,11 +169,11 @@ export function HomePage() {
                   <img
                     src={heroImage}
                     alt="iPhone 14 Series"
-                    className="absolute object-contain"
+                    className="home-hero-image absolute object-contain"
                     style={{
                       width: '496px',
                       height: '352px',
-                      left: '396px',
+                      left: '388px',
                       top: '16px',
                     }}
                   />
@@ -201,7 +201,7 @@ export function HomePage() {
 
         {/*  BROWSE BY CATEGORY  */}
         <section className="w-full bg-white border-t border-[#E5E5E5]">
-          <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
+          <div className="max-w-[1170px] mx-auto px-4 lg:px-0 pt-10 md:pt-[70px] pb-10 md:pb-[70px]">
 
             {/*  SECTION HEADER  */}
             <div className="flex items-end justify-between mb-[30px]">
@@ -264,7 +264,7 @@ export function HomePage() {
 
             {/*  CATEGORY CARDS  */}
             <div
-              className="
+              className="category-grid
         grid
         grid-cols-2
         sm:grid-cols-3

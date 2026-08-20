@@ -10,10 +10,6 @@ interface TimeLeft {
 }
 
 const MusicBanner: React.FC = () => {
-  /*
-   * Fixed deadline.
-   * Change this date whenever you want to configure a new sale.
-   */
   const SALE_END_DATE = "2026-08-22T23:59:59+05:00";
 
   const calculateTimeLeft = (): TimeLeft => {
@@ -33,15 +29,12 @@ const MusicBanner: React.FC = () => {
       days: Math.floor(
         difference / (1000 * 60 * 60 * 24)
       ),
-
       hours: Math.floor(
         (difference / (1000 * 60 * 60)) % 24
       ),
-
       minutes: Math.floor(
         (difference / (1000 * 60)) % 60
       ),
-
       seconds: Math.floor(
         (difference / 1000) % 60
       ),
@@ -79,36 +72,12 @@ const MusicBanner: React.FC = () => {
   ];
 
   return (
-    <section
-      className="
-        w-full
-        bg-white
-        py-0
-      "
-    >
+    <section className="w-full bg-white">
+      <div className="relative w-full max-w-[1170px] h-[430px] sm:h-[500px] lg:h-[570px] mx-auto px-4 lg:px-0">
 
-      <div
-        className="
-          relative
-          w-full
-          max-w-[1170px]
-          h-[570px]
-          mx-auto
-        "
-      >
+        <div className="relative w-full h-full lg:h-[500px] bg-[#050505] overflow-hidden">
 
-        <div
-          className="
-            absolute
-            top-0
-            left-0
-            w-[1170px]
-            h-[500px]
-            max-w-full
-            bg-[#050505]
-            overflow-hidden
-          "
-        >
+          {/* Speaker visual */}
 
           <div
             className="
@@ -120,9 +89,18 @@ const MusicBanner: React.FC = () => {
               overflow-hidden
               rounded-full
               bg-[#181818]
+
+              max-lg:left-[48%]
+              max-lg:scale-90
+              max-lg:origin-left
+
+              max-md:left-[42%]
+              max-md:top-[50px]
+              max-md:scale-[0.56]
+              max-md:origin-top-left
+              max-md:opacity-70
             "
           >
-
             <div
               className="
                 absolute
@@ -134,35 +112,38 @@ const MusicBanner: React.FC = () => {
               "
             >
               <img
-  src={speakerImage}
-  alt="Premium speaker"
-  draggable={false}
-  className="
-    absolute
-    select-none
-    pointer-events-none
-    object-contain
-  "
-  style={{
-    width: "900px",
-    height: "520px",
-    maxWidth: "none",
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%, -50%)",
-  }}
-/>
+                src={speakerImage}
+                alt="Premium speaker"
+                draggable={false}
+                className="
+                  absolute
+                  select-none
+                  pointer-events-none
+                  object-contain
+                "
+                style={{
+                  width: "900px",
+                  height: "520px",
+                  maxWidth: "none",
+                  left: "50%",
+                  top: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              />
             </div>
           </div>
-          {/* CATEGORIES */}
+
+          {/* Category */}
 
           <span
             className="
               absolute
               top-[69px]
               left-[56px]
-              w-[90px]
-              h-[20px]
+
+              max-md:top-[36px]
+              max-md:left-[24px]
+
               text-[#00F568]
               whitespace-nowrap
             "
@@ -171,11 +152,12 @@ const MusicBanner: React.FC = () => {
               fontSize: "15px",
               fontWeight: 600,
               lineHeight: "20px",
-              letterSpacing: "0%",
             }}
           >
             Categories
           </span>
+
+          {/* Heading */}
 
           <h2
             className="
@@ -184,6 +166,12 @@ const MusicBanner: React.FC = () => {
               left-[56px]
               w-[443px]
               h-[120px]
+
+              max-md:top-[72px]
+              max-md:left-[24px]
+              max-md:w-[calc(100%-48px)]
+              max-md:h-auto
+
               !m-0
               !p-0
               text-[#FAFAFA]
@@ -199,8 +187,10 @@ const MusicBanner: React.FC = () => {
             <span
               className="
                 block
-                w-max
                 whitespace-nowrap
+                max-md:whitespace-normal
+                max-md:text-[32px]
+                max-md:leading-[40px]
               "
             >
               Enhance Your
@@ -209,24 +199,30 @@ const MusicBanner: React.FC = () => {
             <span
               className="
                 block
-                w-max
                 whitespace-nowrap
+                max-md:whitespace-normal
+                max-md:text-[32px]
+                max-md:leading-[40px]
               "
             >
               Music Experience
             </span>
           </h2>
 
+          {/* Countdown */}
+
           <div
             className="
               absolute
               top-[273px]
               left-[56px]
-              w-[320px]
-              h-[62px]
               flex
               items-center
               gap-[24px]
+
+              max-md:top-[205px]
+              max-md:left-[24px]
+              max-md:gap-[10px]
             "
           >
             {timerItems.map((item) => (
@@ -240,36 +236,33 @@ const MusicBanner: React.FC = () => {
                   rounded-full
                   bg-white
                   text-black
+
+                  max-md:w-[52px]
+                  max-md:h-[52px]
                 "
               >
-                {/* VALUE */}
-
                 <span
                   className="
                     absolute
                     top-[14px]
                     left-1/2
                     -translate-x-1/2
-                    w-[28px]
-                    h-[20px]
                     flex
                     items-center
                     justify-center
                     whitespace-nowrap
+
+                    max-md:top-[9px]
                   "
                   style={{
-                    fontFamily:
-                      "Poppins, sans-serif",
+                    fontFamily: "Poppins, sans-serif",
                     fontSize: "16px",
                     fontWeight: 600,
                     lineHeight: "20px",
-                    letterSpacing: "0%",
                   }}
                 >
                   {item.value}
                 </span>
-
-                {/* LABEL */}
 
                 <span
                   className="
@@ -277,19 +270,19 @@ const MusicBanner: React.FC = () => {
                     top-[34px]
                     left-1/2
                     -translate-x-1/2
-                    h-[18px]
                     flex
                     items-center
                     justify-center
                     whitespace-nowrap
+
+                    max-md:top-[27px]
+                    max-md:text-[9px]
                   "
                   style={{
-                    fontFamily:
-                      "Poppins, sans-serif",
+                    fontFamily: "Poppins, sans-serif",
                     fontSize: "11px",
                     fontWeight: 400,
                     lineHeight: "18px",
-                    letterSpacing: "0%",
                   }}
                 >
                   {item.label}
@@ -297,6 +290,8 @@ const MusicBanner: React.FC = () => {
               </div>
             ))}
           </div>
+
+          {/* Button */}
 
           <Link
             to="/shop"
@@ -317,14 +312,17 @@ const MusicBanner: React.FC = () => {
               transition-colors
               duration-200
               hover:bg-white
+
+              max-md:top-[310px]
+              max-md:left-[24px]
+              max-md:w-[150px]
+              max-md:h-[50px]
             "
             style={{
-              fontFamily:
-                "Poppins, sans-serif",
+              fontFamily: "Poppins, sans-serif",
               fontSize: "16px",
               fontWeight: 500,
               lineHeight: "24px",
-              padding: "16px 48px",
             }}
           >
             Buy Now!

@@ -21,10 +21,10 @@ const BestSelling: React.FC<BestSellingProps> = ({
 
   return (
     <section className="w-full bg-white border-t border-[#E5E5E5]">
-      <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
+      <div className="max-w-[1170px] mx-auto px-4 lg:px-0 pt-10 md:pt-[70px] pb-10 md:pb-[70px]">
 
         {/*  HEADER  */}
-        <div className="flex items-end justify-between mb-[30px]">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-[30px]">
 
           {/* LEFT SIDE */}
           <div>
@@ -96,17 +96,18 @@ const BestSelling: React.FC<BestSellingProps> = ({
         <div
           className="
             grid
-            grid-cols-1
-            sm:grid-cols-2
+            grid-cols-2
+            md:grid-cols-3
             lg:grid-cols-4
-            gap-[30px]
+            gap-4 md:gap-[30px]
           "
         >
           {displayProducts.map((product) => (
             <div
               key={product.id}
               className="
-                w-[270px]
+                w-full
+                min-w-0
                 h-[350px]
               "
             >

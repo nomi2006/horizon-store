@@ -53,10 +53,10 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({
 
   return (
     <section className="w-full bg-white text-black">
-      <div className="max-w-[1170px] mx-auto px-4 pt-[70px] pb-[70px]">
+      <div className="max-w-[1170px] mx-auto px-4 lg:px-0 pt-10 md:pt-[70px] pb-10 md:pb-[70px]">
 
         {/*  HEADER  */}
-        <div className="flex items-start justify-between mb-[44px]">
+        <div className="flex items-start justify-between gap-4 mb-8 md:mb-[44px]">
 
           {/* LEFT HEADER */}
           <div>
@@ -169,11 +169,11 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({
         <div
           className="
             grid
-            grid-cols-1
-            sm:grid-cols-2
+            grid-cols-2
+            md:grid-cols-3
             lg:grid-cols-4
-            gap-x-[30px]
-            gap-y-[70px]
+            gap-x-4 md:gap-x-[30px]
+            gap-y-8 md:gap-y-[70px]
           "
         >
           {visibleProducts.map((product, index) => {

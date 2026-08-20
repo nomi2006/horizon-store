@@ -44,18 +44,16 @@ const FlashSales: React.FC<FlashSalesProps> = ({
       <div
         className="
           w-full
-          max-w-[1308px]
+          max-w-[1170px]
           mx-auto
           px-0
           pt-[44px]
           pb-[52px]
         "
       >
-        {/* ================= HEADER ================= */}
-        <div className="flex items-end justify-between mb-[28px]">
-          {/* LEFT SIDE */}
-          <div className="flex items-end gap-[70px]">
-            {/* TITLE */}
+        {/*  HEADER  */}
+        <div className="flash-header flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-[28px]">
+          <div className="flash-header-left flex flex-col md:flex-row md:items-end gap-6 md:gap-[70px]">
             <div>
               <div className="flex items-center gap-[10px] mb-[10px]">
                 <span
@@ -94,11 +92,9 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               </h2>
             </div>
 
-            {/* COUNTDOWN */}
             <FlashSalesTimer />
           </div>
 
-          {/* ================= ARROWS ================= */}
           <div className="flex items-center gap-[10px] pb-[2px]">
             <button
               type="button"
@@ -152,7 +148,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
           </div>
         </div>
 
-        {/* ================= PRODUCTS ================= */}
+        {/*  PRODUCTS  */}
         <div
           ref={sliderRef}
           className="
@@ -184,7 +180,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
           ))}
         </div>
 
-        {/* ================= VIEW ALL ================= */}
+        {/*  VIEW ALL  */}
         <div className="flex justify-center mt-[38px]">
           <Link
             to={viewAllLink}
