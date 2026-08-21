@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
               </span>
             </Link>
 
-            <div className="hidden md:flex items-center gap-8 h-full">
+            <div className="hidden lg:flex items-center gap-8 h-full">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
@@ -110,7 +110,7 @@ const Navbar: React.FC = () => {
               ))}
             </div>
 
-            <div className="hidden md:flex items-center gap-5">
+            <div className="hidden lg:flex items-center gap-5">
               <div className="relative flex items-center">
                 {isSearchOpen ? (
                   <form onSubmit={handleSearch} className="flex items-center">
@@ -121,7 +121,7 @@ const Navbar: React.FC = () => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="What are you looking for?"
-                        className="w-[240px] h-[38px] px-4 pr-10 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:border-gray-400 transition-colors duration-200"
+                        className="w-[180px] md:w-[240px] h-[38px] px-4 pr-10 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:border-gray-400 transition-colors duration-200"
                       />
                       <button
                         type="submit"
@@ -183,7 +183,7 @@ const Navbar: React.FC = () => {
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+              className="lg:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
               aria-label="Toggle menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -198,7 +198,10 @@ const Navbar: React.FC = () => {
         </div>
 
         {isMenuOpen && (
-          <div ref={menuRef} className="mobile-nav-panel md:hidden bg-white border-t border-gray-200 shadow-lg animate-slide-down">
+          <div
+            ref={menuRef}
+            className="mobile-nav-panel lg:hidden bg-white border-t border-gray-200 shadow-lg animate-slide-down overflow-y-auto max-h-[80vh]"
+          >
             <div className="max-w-[1170px] mx-auto px-4 py-4">
               <div className="flex flex-col gap-3">
                 <form onSubmit={handleSearch} className="flex items-center mb-2">

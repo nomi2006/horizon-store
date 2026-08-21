@@ -166,10 +166,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     product.discountPercentage ||
     (product.originalPrice
       ? Math.round(
-          ((product.originalPrice - product.price) /
-            product.originalPrice) *
-            100
-        )
+        ((product.originalPrice - product.price) /
+          product.originalPrice) *
+        100
+      )
       : 0);
 
   const fallbackRating =
@@ -178,19 +178,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const rating =
     typeof product.rating === 'number' &&
-    product.rating > 0
+      product.rating > 0
       ? Math.min(5, product.rating)
       : fallbackRating.rating;
 
 
   const reviewCount =
     typeof product.reviewCount === 'number' &&
-    product.reviewCount > 0
+      product.reviewCount > 0
       ? product.reviewCount
       : typeof product.review_count === 'number' &&
         product.review_count > 0
-      ? product.review_count
-      : fallbackRating.reviewCount;
+        ? product.review_count
+        : fallbackRating.reviewCount;
 
   return (
     <Link
@@ -198,9 +198,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       className={`
         block
         group
-        w-[270px]
+        w-full
+        max-w-[270px]        
         h-[350px]
-        flex-shrink-0
+        mx-auto
         ${className}
       `}
     >
@@ -208,7 +209,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div
         className="
           relative
-          w-[270px]
+          w-full
           h-[250px]
           rounded-[4px]
           bg-[#F5F5F5]
@@ -216,9 +217,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
         "
       >
 
-{/* SALE/ NEW BADGE */}
+        {/* SALE/ NEW BADGE */}
         {(showSaleBadge && discountPercentage > 0) ||
-        showNewBadge ? (
+          showNewBadge ? (
           <div
             className="
               absolute
@@ -267,7 +268,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         ) : null}
 
-{/* WISHLIST/ VIEW BUTTONS */}
+        {/* WISHLIST/ VIEW BUTTONS */}
         <div
           className="
             absolute
@@ -339,7 +340,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </button>
 
         </div>
-{/* PRODUCTS IMAGES */}
+        {/* PRODUCTS IMAGES */}
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -382,7 +383,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
 
-{/* ADD TO CART */}
+        {/* ADD TO CART */}
         <button
           type="button"
           onClick={handleAddToCart}
@@ -417,10 +418,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </button>
       </div>
 
-{/* PRODUCT DETAILS AREA */}
+      {/* PRODUCT DETAILS AREA */}
       <div
         className="
-          w-[270px]
+          w-full
           h-[100px]
           pt-[14px]
         "
@@ -458,7 +459,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </span>
 
           {product.originalPrice &&
-          product.originalPrice > product.price ? (
+            product.originalPrice > product.price ? (
             <span
               className="
                 text-[13px]

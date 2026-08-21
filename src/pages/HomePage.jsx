@@ -41,12 +41,6 @@ export function HomePage() {
           productService.getBestSellers(),
         ]);
 
-        // console.log('FLASH SALES PRODUCTS:', featuredRes.data);
-        // console.log(
-        //   'FLASH SALES COUNT:',
-        //   featuredRes.data?.length
-        // );
-
         setFeatured(featuredRes.data || []);
         setBestSellers(bestRes.data || []);
       } catch (error) {
@@ -60,30 +54,12 @@ export function HomePage() {
   }, []);
 
   const categories = [
-    {
-      name: 'Phones',
-      icon: Smartphone,
-    },
-    {
-      name: 'Computers',
-      icon: Monitor,
-    },
-    {
-      name: 'SmartWatch',
-      icon: Watch,
-    },
-    {
-      name: 'Camera',
-      icon: Camera,
-    },
-    {
-      name: 'HeadPhones',
-      icon: Headphones,
-    },
-    {
-      name: 'Gaming',
-      icon: Gamepad2,
-    },
+    { name: 'Phones', icon: Smartphone },
+    { name: 'Computers', icon: Monitor },
+    { name: 'SmartWatch', icon: Watch },
+    { name: 'Camera', icon: Camera },
+    { name: 'HeadPhones', icon: Headphones },
+    { name: 'Gaming', icon: Gamepad2 },
   ];
 
   return (
@@ -104,13 +80,9 @@ export function HomePage() {
 
               <div className="home-hero-content w-full min-w-0 pt-4 lg:pl-[30px] lg:pt-[27px]">
                 <div
-                  className="relative bg-black overflow-hidden"
-                  style={{
-                    width: '100%',
-                    height: '344px',
-                  }}
+                  className="relative bg-black overflow-hidden h-[420px] sm:h-[440px] lg:h-[344px]"
                 >
-                  <div className="absolute left-[46px] top-0 h-full z-10 flex flex-col justify-center">
+                  <div className="absolute left-0 sm:left-[30px] lg:left-[46px] top-0 h-full z-10 flex flex-col justify-center px-6 sm:px-0">
                     <div className="flex items-center mb-[18px]">
                       <img
                         src={appleLogo}
@@ -127,13 +99,14 @@ export function HomePage() {
                       </span>
                     </div>
 
+                    {/* ✅ HERO HEADING – RESPONSIVE */}
                     <h1
                       className="
                         !text-white
                         !font-semibold
                         !m-0
-                        text-[48px]
-                        leading-[60px]
+                        text-3xl sm:text-4xl lg:text-5xl
+                        leading-tight sm:leading-[1.2] lg:leading-[1.2]
                         tracking-[0.04em]
                       "
                     >
@@ -166,16 +139,11 @@ export function HomePage() {
                     </Link>
                   </div>
 
+                  {/* ✅ HERO IMAGE – AVOID OVERFLOW ON MOBILE */}
                   <img
                     src={heroImage}
                     alt="iPhone 14 Series"
-                    className="home-hero-image absolute object-contain"
-                    style={{
-                      width: '496px',
-                      height: '352px',
-                      left: '388px',
-                      top: '16px',
-                    }}
+                    className="home-hero-image absolute object-contain w-[280px] h-auto right-[-10px] sm:right-[-20px] bottom-[15px] sm:w-[380px] sm:bottom-[10px] lg:w-[496px] lg:h-[352px] lg:left-[388px] lg:right-auto lg:top-[16px] lg:bottom-auto"
                   />
 
                   <div className="absolute bottom-[10px] left-1/2 -translate-x-1/2 flex items-center gap-[8px] z-20">
@@ -191,7 +159,7 @@ export function HomePage() {
           </div>
         </section>
 
-        {/*  FLASH SALES  */}
+        {/* FLASH SALES */}
         <FlashSales
           products={featured}
           title="Flash Sales"
@@ -199,11 +167,11 @@ export function HomePage() {
           viewAllLink="/shop"
         />
 
-        {/*  BROWSE BY CATEGORY  */}
+        {/* BROWSE BY CATEGORY */}
         <section className="w-full bg-white border-t border-[#E5E5E5]">
           <div className="max-w-[1170px] mx-auto px-4 lg:px-0 pt-10 md:pt-[70px] pb-10 md:pb-[70px]">
 
-            {/*  SECTION HEADER  */}
+            {/* SECTION HEADER */}
             <div className="flex items-end justify-between mb-[30px]">
 
               <div>
@@ -211,36 +179,36 @@ export function HomePage() {
                 <div className="flex items-center gap-[10px] mb-[14px]">
                   <span
                     className="
-              block
-              w-[20px]
-              h-[40px]
-              bg-[#DB4444]
-              rounded-[3px]
-            "
+                      block
+                      w-[20px]
+                      h-[40px]
+                      bg-[#DB4444]
+                      rounded-[3px]
+                    "
                   />
 
                   <span
                     className="
-              text-[14px]
-              leading-[20px]
-              font-semibold
-              text-[#DB4444]
-            "
+                      text-[14px]
+                      leading-[20px]
+                      font-semibold
+                      text-[#DB4444]
+                    "
                   >
                     Categories
                   </span>
                 </div>
 
-                {/* HEADING */}
+                {/* ✅ CATEGORY HEADING – RESPONSIVE */}
                 <h2
                   className="
-            !m-0
-            !p-0
-            !text-[32px]
-            !leading-[38px]
-            !font-semibold
-            !text-black
-          "
+                    !m-0
+                    !p-0
+                    !text-2xl sm:!text-3xl md:!text-4xl
+                    !leading-tight
+                    !font-semibold
+                    !text-black
+                  "
                 >
                   Browse By Category
                 </h2>
@@ -250,27 +218,28 @@ export function HomePage() {
               <Link
                 to="/shop"
                 className="
-          text-[14px]
-          leading-[20px]
-          text-[#DB4444]
-          hover:text-[#c73636]
-          transition-colors
-          mb-[5px]
-        "
+                  text-[14px]
+                  leading-[20px]
+                  text-[#DB4444]
+                  hover:text-[#c73636]
+                  transition-colors
+                  mb-[5px]
+                "
               >
                 View All →
               </Link>
             </div>
 
-            {/*  CATEGORY CARDS  */}
+            {/* ✅ CATEGORY CARDS – RESPONSIVE GRID WITH ADAPTIVE GAPS */}
             <div
-              className="category-grid
-        grid
-        grid-cols-2
-        sm:grid-cols-3
-        lg:grid-cols-6
-        gap-[30px]
-      "
+              className="
+                category-grid
+                grid
+                grid-cols-2
+                sm:grid-cols-3
+                lg:grid-cols-6
+                gap-4 md:gap-[30px]
+              "
             >
               {categories.map((cat) => {
                 const Icon = cat.icon;
@@ -282,60 +251,60 @@ export function HomePage() {
                     to={`/shop?category=${cat.name.toLowerCase()}`}
                     onClick={() => setSelectedCategory(cat.name)}
                     className={`
-              group
-              h-[145px]
-              flex
-              flex-col
-              items-center
-              justify-center
-              border
-              rounded-[4px]
-              transition-all
-              duration-200
+                      group
+                      h-[145px]
+                      flex
+                      flex-col
+                      items-center
+                      justify-center
+                      border
+                      rounded-[4px]
+                      transition-all
+                      duration-200
 
-              ${isSelected
+                      ${isSelected
                         ? `
-                    bg-[#DB4444]
-                    border-[#DB4444]
-                    text-white
-                  `
+                          bg-[#DB4444]
+                          border-[#DB4444]
+                          text-white
+                        `
                         : `
-                    bg-white
-                    border-[#E5E5E5]
-                    text-black
-                    hover:border-[#DB4444]
-                    hover:text-[#DB4444]
-                  `
+                          bg-white
+                          border-[#E5E5E5]
+                          text-black
+                          hover:border-[#DB4444]
+                          hover:text-[#DB4444]
+                        `
                       }
-            `}
+                    `}
                   >
                     {/* CATEGORY ICON */}
                     <Icon
                       size={40}
                       strokeWidth={1.5}
                       className={`
-                mb-[18px]
-                transition-colors
-                duration-200
-                ${isSelected
+                        mb-[18px]
+                        transition-colors
+                        duration-200
+                        ${isSelected
                           ? 'text-white'
                           : 'text-black group-hover:text-[#DB4444]'
                         }
-              `}
+                      `}
                     />
 
                     {/* CATEGORY NAME */}
                     <span
                       className={`
-                text-[14px]
-                leading-[20px]
-                transition-colors
-                duration-200
-                ${isSelected
+                        text-[14px]
+                        leading-[20px]
+                        transition-colors
+                        duration-200
+                        ${isSelected
                           ? 'text-white'
                           : 'text-black'
                         }
-              `}
+                      `}
                     >
                       {cat.name}
                     </span>
@@ -346,7 +315,8 @@ export function HomePage() {
 
           </div>
         </section>
-        {/*  BEST SELLING PRODUCTS  */}
+
+        {/* BEST SELLING PRODUCTS */}
         <BestSelling
           products={bestSellers}
           title="Best Selling Products"

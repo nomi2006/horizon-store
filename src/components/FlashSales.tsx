@@ -20,11 +20,6 @@ const FlashSales: React.FC<FlashSalesProps> = ({
 }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  /*
-   * Product card = 270px
-   * Gap = 30px
-   * One complete scroll step = 270 + 30 = 300px
-   */
   const scrollLeft = () => {
     sliderRef.current?.scrollBy({
       left: -300,
@@ -78,12 +73,12 @@ const FlashSales: React.FC<FlashSalesProps> = ({
                 </span>
               </div>
 
+              {/* HEADING - RESPONSIVE */}
               <h2
                 className="
                   !m-0
                   !p-0
-                  !text-[32px]
-                  !leading-[38px]
+                  !text-2xl sm:!text-3xl md:!text-4xl
                   !font-semibold
                   !text-black
                 "
@@ -95,14 +90,14 @@ const FlashSales: React.FC<FlashSalesProps> = ({
             <FlashSalesTimer />
           </div>
 
+          {/* ARROWS - RESPONSIVE SIZE */}
           <div className="flex items-center gap-[10px] pb-[2px]">
             <button
               type="button"
               onClick={scrollLeft}
               aria-label="Previous products"
               className="
-                w-[42px]
-                h-[42px]
+                w-8 h-8 md:w-[42px] md:h-[42px]
                 rounded-full
                 bg-[#F5F5F5]
                 flex
@@ -116,7 +111,8 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               "
             >
               <ChevronLeft
-                size={20}
+                size={16}
+                className="md:w-[20px] md:h-[20px]"
                 strokeWidth={1.8}
               />
             </button>
@@ -126,8 +122,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               onClick={scrollRight}
               aria-label="Next products"
               className="
-                w-[42px]
-                h-[42px]
+                w-8 h-8 md:w-[42px] md:h-[42px]
                 rounded-full
                 bg-[#F5F5F5]
                 flex
@@ -141,14 +136,15 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               "
             >
               <ChevronRight
-                size={20}
+                size={16}
+                className="md:w-[20px] md:h-[20px]"
                 strokeWidth={1.8}
               />
             </button>
           </div>
         </div>
 
-        {/*  PRODUCTS  */}
+        {/*  PRODUCTS SLIDER  */}
         <div
           ref={sliderRef}
           className="
@@ -180,7 +176,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
           ))}
         </div>
 
-        {/*  VIEW ALL  */}
+        {/*  VIEW ALL - RESPONSIVE WIDTH */}
         <div className="flex justify-center mt-[38px]">
           <Link
             to={viewAllLink}
@@ -188,6 +184,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               inline-flex
               items-center
               justify-center
+              w-full sm:w-auto
               min-w-[160px]
               h-[46px]
               px-[24px]

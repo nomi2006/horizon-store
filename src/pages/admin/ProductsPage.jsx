@@ -100,32 +100,33 @@ export function ProductsPage() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+      {/* Header - responsive stack */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Products
         </h1>
-        <Link to="/admin/products/new" className="btn-primary">
+        <Link to="/admin/products/new" className="btn-primary inline-flex items-center justify-center">
           <Plus className="h-5 w-5 mr-2" />
           Add Product
         </Link>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap items-center gap-4 mb-6">
-        <div className="flex-1 min-w-[200px] relative">
+      {/* Filters - responsive wrap */}
+      <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3 mb-6">
+        <div className="flex-1 min-w-[200px] w-full sm:w-auto relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search products..."
-            className="input-field pl-10"
+            className="input-field pl-10 w-full"
           />
         </div>
         <select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-          className="select-field w-auto"
+          className="select-field w-full sm:w-auto"
         >
           <option value="">All Categories</option>
           {categories.map((cat) => (
@@ -135,7 +136,7 @@ export function ProductsPage() {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="select-field w-auto"
+          className="select-field w-full sm:w-auto"
         >
           <option value="">All Status</option>
           <option value="true">Active</option>
@@ -143,9 +144,9 @@ export function ProductsPage() {
         </select>
       </div>
 
-      {/* Bulk Actions */}
+      {/* Bulk Actions - responsive wrap */}
       {selectedIds.length > 0 && (
-        <div className="flex items-center gap-4 mb-4 p-3 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
+        <div className="flex flex-wrap items-center gap-4 mb-4 p-3 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
           <span className="text-sm text-gray-700 dark:text-gray-300">
             {selectedIds.length} selected
           </span>
@@ -176,7 +177,7 @@ export function ProductsPage() {
         </div>
       )}
 
-      {/* Table */}
+      {/* Table - already responsive with overflow-x-auto */}
       <div className="bg-white dark:bg-dark-900 rounded-xl border border-gray-200 dark:border-dark-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

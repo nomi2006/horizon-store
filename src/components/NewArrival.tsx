@@ -11,31 +11,15 @@ const NewArrival: React.FC = () => {
       <div className="max-w-[1170px] mx-auto px-4 lg:px-0 pt-10 md:pt-[70px] pb-10 md:pb-[70px]">
 
         {/* SECTION HEADING */}
-        <div className="flex items-center gap-[18px] mb-[60px]">
-          <span
-            className="
-              block
-              w-[20px]
-              h-[40px]
-              bg-[#DB4444]
-              rounded-[3px]
-              flex-shrink-0
-            "
-          />
-
-          <h2
-            className="
-              m-0
-              text-[#DB4444]
-              text-[16px]
-              leading-[20px]
-              font-semibold
-            "
-            style={{
-              fontFamily: "Poppins, sans-serif",
-            }}
-          >
-            Featured
+        <div className="mb-8 md:mb-[40px]">
+          <div className="flex items-center gap-[18px] mb-4">
+            <span className="block w-[20px] h-[40px] bg-[#DB4444] rounded-[3px] flex-shrink-0" />
+            <h2 className="m-0 text-[#DB4444] text-[16px] leading-[20px] font-semibold">
+              Featured
+            </h2>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black">
+            New Arrival
           </h2>
         </div>
 

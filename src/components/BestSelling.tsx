@@ -16,7 +16,6 @@ const BestSelling: React.FC<BestSellingProps> = ({
   subtitle = 'This Month',
   viewAllLink = '/shop',
 }) => {
-  // Figma shows 4 products in this section
   const displayProducts = products.slice(0, 4);
 
   return (
@@ -28,7 +27,6 @@ const BestSelling: React.FC<BestSellingProps> = ({
 
           {/* LEFT SIDE */}
           <div>
-            {/* RED LABEL */}
             <div className="flex items-center gap-[10px] mb-[14px]">
               <span
                 className="
@@ -52,13 +50,12 @@ const BestSelling: React.FC<BestSellingProps> = ({
               </span>
             </div>
 
-            {/* HEADING */}
+            {/* HEADING - RESPONSIVE */}
             <h2
               className="
                 !m-0
                 !p-0
-                !text-[32px]
-                !leading-[38px]
+                !text-2xl sm:!text-3xl md:!text-4xl
                 !font-semibold
                 !text-black
               "
@@ -67,13 +64,14 @@ const BestSelling: React.FC<BestSellingProps> = ({
             </h2>
           </div>
 
-          {/* VIEW ALL BUTTON */}
+          {/* VIEW ALL - RESPONSIVE WIDTH */}
           <Link
             to={viewAllLink}
             className="
               inline-flex
               items-center
               justify-center
+              w-full sm:w-auto
               min-w-[160px]
               h-[46px]
               px-[24px]
@@ -92,7 +90,7 @@ const BestSelling: React.FC<BestSellingProps> = ({
           </Link>
         </div>
 
-        {/*  PRODUCTS  */}
+        {/*  PRODUCTS - RESPONSIVE GRID, HEIGHT AUTO */}
         <div
           className="
             grid
@@ -108,7 +106,6 @@ const BestSelling: React.FC<BestSellingProps> = ({
               className="
                 w-full
                 min-w-0
-                h-[350px]
               "
             >
               <ProductCard

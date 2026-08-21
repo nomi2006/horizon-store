@@ -6,9 +6,8 @@ const TopBar: React.FC = () => {
 
   return (
     <div className="w-full bg-[#1A1A1A] text-white h-[36px]">
-      <div className="max-w-[1170px] h-full mx-auto px-4 lg:px-0 flex items-center justify-between">
-        
-        <div className="topbar-message flex-1 text-center text-[12px] leading-none">
+      <div className="max-w-[1170px] h-full mx-auto px-4 lg:px-0 flex items-center justify-center relative">
+        <div className="topbar-message flex-1 text-center text-[10px] sm:text-[12px] leading-none whitespace-nowrap overflow-hidden text-ellipsis">
           <span>
             Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
           </span>
@@ -21,7 +20,7 @@ const TopBar: React.FC = () => {
           </a>
         </div>
 
-        <div className="flex items-center gap-1 ml-4">
+        <div className="absolute right-4 lg:right-0 flex items-center gap-1">
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}

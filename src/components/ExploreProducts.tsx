@@ -90,10 +90,9 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({
               className="
                 mt-[24.5px]
                 text-[#000000]
-                text-[36px]
-                leading-[48px]
+                text-2xl sm:text-3xl md:text-4xl lg:text-5xl
                 font-semibold
-              "
+               "
               style={{
                 fontFamily: "Inter, sans-serif",
               }}
@@ -112,26 +111,22 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({
               disabled={!canGoPrevious}
               aria-label="Previous products"
               className={`
-                w-[52px]
-                h-[52px]
-                rounded-full
-                bg-[#F5F5F5]
-                text-black
-                flex
-                items-center
-                justify-center
-                transition-all
-                duration-200
-                ${canGoPrevious
+                  w-10 h-10 md:w-[52px] md:h-[52px]
+                  rounded-full
+                  bg-[#F5F5F5]
+                  text-black
+                  flex
+                  items-center
+                  justify-center
+                  transition-all
+                  duration-200
+                  ${canGoPrevious
                   ? "hover:bg-[#E5E5E5] cursor-pointer"
                   : "opacity-100 cursor-default"
                 }
-              `}
+               `}
             >
-              <ChevronLeft
-                size={30}
-                strokeWidth={1.8}
-              />
+              <ChevronLeft size={24} className="md:w-[30px] md:h-[30px]" strokeWidth={1.8} />
             </button>
 
             {/* NEXT */}
@@ -141,26 +136,22 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({
               disabled={!canGoNext}
               aria-label="Next products"
               className={`
-                w-[52px]
-                h-[52px]
-                rounded-full
-                bg-[#F5F5F5]
-                text-black
-                flex
-                items-center
-                justify-center
-                transition-all
-                duration-200
-                ${canGoNext
+                   w-10 h-10 md:w-[52px] md:h-[52px]
+                   rounded-full
+                   bg-[#F5F5F5]
+                   text-black
+                   flex
+                   items-center
+                   justify-center
+                   transition-all
+                   duration-200
+                   ${canGoPrevious
                   ? "hover:bg-[#E5E5E5] cursor-pointer"
                   : "opacity-100 cursor-default"
                 }
               `}
             >
-              <ChevronRight
-                size={30}
-                strokeWidth={1.8}
-              />
+              <ChevronRight size={24} className="md:w-[30px] md:h-[30px]" strokeWidth={1.8} />
             </button>
           </div>
         </div>
@@ -260,25 +251,25 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({
           <Link
             to="/shop"
             className="
-              inline-flex
-              items-center
-              justify-center
-              w-[265px]
-              h-[56px]
-              rounded-[4px]
-              bg-[#DB4444]
-              text-white
-              text-[16px]
-              leading-[24px]
-              font-medium
-              no-underline
-              hover:bg-[#C73636]
-              transition-colors
-              duration-200
+             inline-flex
+             items-center
+             justify-center
+             w-full sm:w-[265px]
+             h-[56px]
+             rounded-[4px]
+             bg-[#DB4444]
+             text-white
+             text-[16px]
+             leading-[24px]
+             font-medium
+             no-underline
+             hover:bg-[#C73636]
+             transition-colors
+             duration-200
             "
           >
             View All Products
-          </Link>
+          </Link>         
         </div>
 
       </div>

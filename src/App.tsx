@@ -29,6 +29,8 @@ import { OrderDetailPage } from './pages/admin/OrderDetailPage'
 import { CustomersPage } from './pages/admin/CustomersPage'
 import { CouponsPage } from './pages/admin/CouponsPage'
 import { SettingsPage } from './pages/admin/SettingsPage'
+import { AboutPage } from './pages/AboutPages'
+// import { ContactPage } from './pages/ContactPage'
 
 function App() {
   useEffect(() => {
@@ -51,6 +53,8 @@ function App() {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/shop" element={<ShopPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  {/* <Route path="/contact" element={<ContactPage />} /> */}
                   <Route path="/product/:id" element={<ProductDetailPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
