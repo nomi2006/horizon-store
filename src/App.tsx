@@ -30,7 +30,7 @@ import { CustomersPage } from './pages/admin/CustomersPage'
 import { CouponsPage } from './pages/admin/CouponsPage'
 import { SettingsPage } from './pages/admin/SettingsPage'
 import { AboutPage } from './pages/AboutPages'
-// import { ContactPage } from './pages/ContactPage'
+import ContactPage from './pages/ContactPage';
 
 function App() {
   useEffect(() => {
@@ -49,12 +49,12 @@ function App() {
         <CartProvider>
           <WishlistProvider>
             <div className="min-h-screen flex flex-col">
-              <main className="flex-grow">   {/* ✅ pt-16 REMOVED */}
+              <main className="flex-grow">   
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/shop" element={<ShopPage />} />
                   <Route path="/about" element={<AboutPage />} />
-                  {/* <Route path="/contact" element={<ContactPage />} /> */}
+                  <Route path="/contact" element={<ContactPage />} />
                   <Route path="/product/:id" element={<ProductDetailPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />

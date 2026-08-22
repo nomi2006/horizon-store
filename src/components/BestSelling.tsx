@@ -86,7 +86,7 @@ const BestSelling: React.FC<BestSellingProps> = ({
               duration-200
             "
           >
-            View All Products
+            View All 
           </Link>
         </div>
 
