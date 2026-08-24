@@ -38,13 +38,34 @@ export const productService = {
     return { data, error }
   },
 
-  async getById(id) {
+  async getById(identifier) {
+    // First try the slug because ProductCard uses:
+    // /product/${product.slug || product.id}
+
+    const { data: slugData, error: slugError } = await supabase
+      .from('products')
+      .select('*, categories(*)')
+      .eq('slug', identifier)
+      .maybeSingle()
+
+    if (slugData) {
+      return {
+        data: slugData,
+        error: null,
+      }
+    }
+
+    // If no slug matched, fall back to the product ID.
     const { data, error } = await supabase
       .from('products')
       .select('*, categories(*)')
-      .eq('id', id)
-      .single()
-    return { data, error }
+      .eq('id', identifier)
+      .maybeSingle()
+
+    return {
+      data,
+      error: error || slugError,
+    }
   },
 
   async getFeatured() {
