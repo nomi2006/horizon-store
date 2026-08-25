@@ -12,8 +12,10 @@ import { ShopPage } from './pages/ShopPage'
 import { ProductDetailPage } from './pages/ProductDetailPage'
 import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage'
+import { UpdatePasswordPage } from './pages/UpdatePasswordPage'
 import { CartPage } from './pages/CartPage'
-import { CheckoutPage } from './pages/CheckoutPage'
+import { CheckoutPage } from './pages/CheckoutPage';
 import { OrderSuccessPage } from './pages/OrderSuccessPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { OrdersPage } from './pages/OrdersPage'
@@ -49,7 +51,7 @@ function App() {
         <CartProvider>
           <WishlistProvider>
             <div className="min-h-screen flex flex-col">
-              <main className="flex-grow">   
+              <main className="flex-grow">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/shop" element={<ShopPage />} />
@@ -58,8 +60,13 @@ function App() {
                   <Route path="/product/:id" element={<ProductDetailPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                  <Route
+                    path="/update-password"
+                    element={<UpdatePasswordPage />}
+                  />
                   <Route path="/cart" element={<CartPage />} />
-                  <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
                   <Route path="/order-success" element={<ProtectedRoute><OrderSuccessPage /></ProtectedRoute>} />
                   <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
                   <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
