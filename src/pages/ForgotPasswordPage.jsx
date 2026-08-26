@@ -178,7 +178,7 @@ export function ForgotPasswordPage() {
                 onClick={() => setSent(false)}
                 className="mt-7 text-[14px] text-[#DB4444]"
               >
-                Try another email
+                Try another Email
               </button>
 
               <div className="mt-4">
