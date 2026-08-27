@@ -1,33 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import toast from 'react-hot-toast';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import toast from 'react-hot-toast'
 
-import TopBar from '../components/TopBar';
-import { supabase } from '../services/supabase';
+import TopBar from '../components/TopBar'
+import { useAuth } from '../context/AuthContext'
+import { supabase } from '../services/supabase'
 
 const schema = z
   .object({
     password: z
       .string()
-      .min(6, 'Password must be at least 6 characters'),
+      .min(
+        6,
+        'Password must be at least 6 characters'
+      ),
+
     confirmPassword: z.string(),
   })
   .refine(
-    (data) => data.password === data.confirmPassword,
+    (data) =>
+      data.password === data.confirmPassword,
     {
       message: "Passwords don't match",
       path: ['confirmPassword'],
     }
-  );
+  )
 
 export function UpdatePasswordPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [loading, setLoading] = useState(false);
-  const [ready, setReady] = useState(false);
+  const { updatePassword } = useAuth()
+
+  const [checkingSession, setCheckingSession] =
+    useState(true)
+
+  const [loading, setLoading] =
+    useState(false)
 
   const {
     register,
@@ -35,64 +46,68 @@ export function UpdatePasswordPage() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
-  });
+  })
 
   useEffect(() => {
-    const checkSession = async () => {
+    const checkResetSession = async () => {
       const {
         data: { session },
-      } = await supabase.auth.getSession();
+      } = await supabase.auth.getSession()
 
       if (!session) {
         toast.error(
-          'This password reset link is invalid or has expired.'
-        );
+          'Your password reset link is invalid or expired.'
+        )
 
         navigate('/forgot-password', {
           replace: true,
-        });
+        })
 
-        return;
+        return
       }
 
-      setReady(true);
-    };
+      setCheckingSession(false)
+    }
 
-    checkSession();
-  }, [navigate]);
+    checkResetSession()
+  }, [navigate])
 
   const onSubmit = async ({ password }) => {
-    setLoading(true);
+    setLoading(true)
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        password,
-      });
+      const { error } =
+        await updatePassword(password)
 
       if (error) {
-        toast.error(error.message);
-        return;
+        toast.error(error.message)
+        return
       }
 
-      toast.success('Password updated successfully!');
+      toast.success(
+        'Password updated successfully!'
+      )
 
-      await supabase.auth.signOut();
+      await supabase.auth.signOut()
 
       navigate('/login', {
         replace: true,
-      });
+      })
     } catch (error) {
-      console.error('Update password error:', error);
+      console.error(
+        'Update password error:',
+        error
+      )
 
       toast.error(
-        'Unable to update your password. Please try again.'
-      );
+        'Unable to update your password.'
+      )
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  if (!ready) {
+  if (checkingSession) {
     return (
       <div className="min-h-screen bg-white">
         <TopBar />
@@ -103,27 +118,33 @@ export function UpdatePasswordPage() {
           </p>
         </div>
       </div>
-    );
+    )
   }
 
   return (
     <div className="min-h-screen bg-white text-black">
       <TopBar />
 
-      <main className="min-h-[calc(100vh-36px)] flex items-center justify-center px-5 py-16">
+      <main className="flex min-h-[calc(100vh-36px)] items-center justify-center px-5 py-16">
         <div className="w-full max-w-[470px]">
 
-          <div className="text-center mb-10">
+          <div className="mb-10 text-center">
             <h1
-              className="text-[34px] sm:text-[38px] font-medium"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              className="text-[34px] font-medium sm:text-[38px]"
+              style={{
+                fontFamily:
+                  'Inter, sans-serif',
+              }}
             >
               Set New Password
             </h1>
 
             <p
               className="mt-4 text-[15px] text-[#7D7D7D]"
-              style={{ fontFamily: 'Poppins, sans-serif' }}
+              style={{
+                fontFamily:
+                  'Poppins, sans-serif',
+              }}
             >
               Enter your new password below.
             </p>
@@ -135,8 +156,8 @@ export function UpdatePasswordPage() {
           >
             <div>
               <input
-                type="password"
                 {...register('password')}
+                type="password"
                 placeholder="New Password"
                 autoComplete="new-password"
                 className="w-full border-0 border-b border-[#7D7D7D] bg-transparent px-0 pb-3 text-[16px] outline-none placeholder:text-[#7D7D7D] focus:border-black"
@@ -151,8 +172,10 @@ export function UpdatePasswordPage() {
 
             <div>
               <input
+                {...register(
+                  'confirmPassword'
+                )}
                 type="password"
-                {...register('confirmPassword')}
                 placeholder="Confirm New Password"
                 autoComplete="new-password"
                 className="w-full border-0 border-b border-[#7D7D7D] bg-transparent px-0 pb-3 text-[16px] outline-none placeholder:text-[#7D7D7D] focus:border-black"
@@ -160,7 +183,10 @@ export function UpdatePasswordPage() {
 
               {errors.confirmPassword && (
                 <p className="mt-2 text-[12px] text-[#DB4444]">
-                  {errors.confirmPassword.message}
+                  {
+                    errors.confirmPassword
+                      .message
+                  }
                 </p>
               )}
             </div>
@@ -168,7 +194,7 @@ export function UpdatePasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="h-[52px] w-full rounded-[4px] bg-[#DB4444] text-white hover:bg-[#C73636] disabled:opacity-70"
+              className="h-[56px] w-full rounded-[4px] bg-[#DB4444] text-[16px] font-medium text-white hover:bg-[#C73636] disabled:opacity-70"
             >
               {loading
                 ? 'Updating...'
@@ -178,5 +204,5 @@ export function UpdatePasswordPage() {
         </div>
       </main>
     </div>
-  );
+  )
 }
