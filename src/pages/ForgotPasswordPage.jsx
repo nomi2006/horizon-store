@@ -158,7 +158,7 @@ export function ForgotPasswordPage() {
                     'Inter, sans-serif',
                 }}
               >
-                Check your email
+                Check your Email
               </h2>
 
               <p
@@ -169,7 +169,7 @@ export function ForgotPasswordPage() {
                 }}
               >
                 If an account exists for
-                that email, you'll receive
+                that Email, you'll receive
                 a password reset link.
               </p>
 
