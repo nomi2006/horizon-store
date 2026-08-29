@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, Heart, ShoppingCart } from 'lucide-react';
 
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useWishlist } from '../context/WishlistContext';
 
 interface ProductCardProps {
   product: {
@@ -17,7 +18,6 @@ interface ProductCardProps {
     image_url?: string;
     imageUrl?: string;
     images?: string[];
-
     rating?: number;
     reviewCount?: number;
     review_count?: number;
@@ -30,7 +30,7 @@ interface ProductCardProps {
   showSaleBadge?: boolean;
   showNewBadge?: boolean;
   className?: string;
-};
+}
 
 const productRatings: Record<
   string,
@@ -93,8 +93,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { addToCart } = useCart();
   const { user } = useAuth();
+  const { addItem, removeItem, isInWishlist } = useWishlist();
+  const navigate = useNavigate();
 
   const [isAddingToCart, setIsAddingToCart] =
+    useState(false);
+
+  const [isWishlistLoading, setIsWishlistLoading] =
     useState(false);
 
   // PRODUCT IMAGE LOGIC
@@ -105,18 +110,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
     ) {
       return product.image.trim();
     }
+
     if (
       typeof product.image_url === 'string' &&
       product.image_url.trim()
     ) {
       return product.image_url.trim();
     }
+
     if (
       typeof product.imageUrl === 'string' &&
       product.imageUrl.trim()
     ) {
       return product.imageUrl.trim();
     }
+
     if (
       Array.isArray(product.images) &&
       product.images.length > 0
@@ -135,6 +143,42 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const imageUrl = getProductImage();
+
+  // WISHLIST LOGIC
+  const isWishlisted = isInWishlist(product.id);
+
+  const handleWishlistToggle = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    if (isWishlistLoading) {
+      return;
+    }
+
+    setIsWishlistLoading(true);
+
+    try {
+      if (isWishlisted) {
+        removeItem(product.id);
+      } else {
+        addItem(product);
+      }
+    } catch (error) {
+      console.error(
+        'Error updating wishlist:',
+        error
+      );
+    } finally {
+      setIsWishlistLoading(false);
+    }
+  };
 
   // ADD TO CART LOGIC
   const handleAddToCart = async (
@@ -162,10 +206,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     product.discountPercentage ||
     (product.originalPrice
       ? Math.round(
-        ((product.originalPrice - product.price) /
-          product.originalPrice) *
-        100
-      )
+          ((product.originalPrice - product.price) /
+            product.originalPrice) *
+            100
+        )
       : 0);
 
   const fallbackRating =
@@ -174,14 +218,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const rating =
     typeof product.rating === 'number' &&
-      product.rating > 0
+    product.rating > 0
       ? Math.min(5, product.rating)
       : fallbackRating.rating;
 
-
   const reviewCount =
     typeof product.reviewCount === 'number' &&
-      product.reviewCount > 0
+    product.reviewCount > 0
       ? product.reviewCount
       : typeof product.review_count === 'number' &&
         product.review_count > 0
@@ -195,7 +238,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         block
         group
         w-full
-        max-w-[270px]        
+        max-w-[270px]
         h-[350px]
         mx-auto
         ${className}
@@ -212,10 +255,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
           overflow-hidden
         "
       >
-
-        {/* SALE/ NEW BADGE */}
+        {/* SALE / NEW BADGE */}
         {(showSaleBadge && discountPercentage > 0) ||
-          showNewBadge ? (
+        showNewBadge ? (
           <div
             className="
               absolute
@@ -264,7 +306,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         ) : null}
 
-        {/* WISHLIST/ VIEW BUTTONS */}
+        {/* WISHLIST / VIEW BUTTONS */}
         <div
           className="
             absolute
@@ -276,14 +318,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             gap-[8px]
           "
         >
-
           {/* Wishlist */}
           <button
             type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+            onClick={handleWishlistToggle}
+            disabled={isWishlistLoading}
             className="
               w-[34px]
               h-[34px]
@@ -297,12 +336,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
               hover:bg-gray-100
               transition-colors
               duration-200
+              disabled:opacity-50
             "
-            aria-label="Add to wishlist"
+            aria-label={
+              isWishlisted
+                ? 'Remove from wishlist'
+                : 'Add to wishlist'
+            }
           >
             <Heart
               size={18}
               strokeWidth={1.7}
+              fill={
+                isWishlisted
+                  ? '#DB4444'
+                  : 'none'
+              }
+              className={
+                isWishlisted
+                  ? 'text-[#DB4444]'
+                  : 'text-black'
+              }
             />
           </button>
 
@@ -312,6 +366,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
+
+              navigate(
+                `/product/${product.slug || product.id}`
+              );
             }}
             className="
               w-[34px]
@@ -334,9 +392,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
               strokeWidth={1.7}
             />
           </button>
-
         </div>
-        {/* PRODUCTS IMAGES */}
+
+        {/* PRODUCT IMAGE */}
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -435,6 +493,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         >
           {product.name}
         </h3>
+
         <div
           className="
             flex
@@ -455,7 +514,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </span>
 
           {product.originalPrice &&
-            product.originalPrice > product.price ? (
+          product.originalPrice > product.price ? (
             <span
               className="
                 text-[13px]
@@ -477,7 +536,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             mt-[3px]
           "
         >
-
           {/* STARS */}
           <div
             className="
@@ -527,7 +585,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           >
             ({reviewCount})
           </span>
-
         </div>
       </div>
     </Link>

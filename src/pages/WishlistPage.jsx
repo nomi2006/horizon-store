@@ -14,7 +14,6 @@ import { productService } from '../services/productService'
 
 import TopBar from '../components/TopBar'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 const getProductImage = (product) => {
   if (typeof product?.image === 'string' && product.image.trim()) {
@@ -763,7 +762,6 @@ export function WishlistPage() {
           )}
         </section>
       </main>
-      <Footer />
     </div>
   )
 }

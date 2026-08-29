@@ -78,133 +78,197 @@ function ProductStars({ rating = 5, reviews = 0 }) {
 }
 
 function RelatedProductCard({ product }) {
-  const navigate = useNavigate();
+const navigate = useNavigate();
 
-  const image = getImages(product)[0];
+const {
+addItem: addWishlist,
+removeItem: removeWishlist,
+isInWishlist,
+} = useWishlist();
 
-  const price = Number(product.price || 0);
+const image = getImages(product)[0];
 
-  const oldPrice = Number(
-    product.compare_at_price ||
-    product.original_price ||
-    product.old_price ||
-    0
-  );
+const price = Number(product.price || 0);
 
-  const discount =
-    oldPrice > price
-      ? `-${Math.round(((oldPrice - price) / oldPrice) * 100)}%`
-      : null;
+const oldPrice = Number(
+product.compare_at_price ||
+product.original_price ||
+product.old_price ||
+0
+);
 
-  const reviews =
-    product.reviews_count ||
-    product.review_count ||
-    product.reviewCount ||
-    0;
+const discount =
+oldPrice > price
+? `-${Math.round(((oldPrice - price) / oldPrice) * 100)}%`
+: null;
 
-  return (
-    <article className="group min-w-0">
-      {/* IMAGE */}
-      <div
+const reviews =
+product.reviews_count ||
+product.review_count ||
+product.reviewCount ||
+0;
+
+const isWishlisted = isInWishlist(product.id);
+
+const handleWishlist = (event) => {
+event.stopPropagation();
+
+```
+if (isWishlisted) {
+  removeWishlist(product.id);
+  toast.success('Removed from wishlist');
+} else {
+  addWishlist(product);
+  toast.success('Added to wishlist');
+}
+```
+
+};
+
+const handleProductClick = () => {
+navigate(`/product/${product.slug || product.id}`);
+};
+
+return ( <article className="group min-w-0">
+     <div
+     className="
+       relative
+       w-full
+       aspect-square
+       bg-[#F7F7F7]
+       rounded-[8px]
+       overflow-hidden
+       flex
+       items-center
+       justify-center
+       cursor-pointer
+     "
+     onClick={handleProductClick}
+   >
+{discount && ( <span
+         className="
+           absolute
+           top-[12px]
+           left-[12px]
+           z-10
+           bg-[#DB4444]
+           text-white
+           text-[12px]
+           font-medium
+           leading-[22px]
+           px-[10px]
+           rounded-[4px]
+         "
+       >
+{discount} </span>
+)}
+
+```
+    <div
+      className="
+        absolute
+        top-[12px]
+        right-[12px]
+        z-10
+        flex
+        flex-col
+        gap-[8px]
+      "
+    >
+      <button
+        type="button"
+        onClick={handleWishlist}
         className="
-          relative
-          w-full
-          aspect-square
-          bg-[#F5F5F5]
-          rounded-[3px]
-          overflow-hidden
+          w-[38px]
+          h-[38px]
+          rounded-full
+          bg-white
           flex
           items-center
           justify-center
-          cursor-pointer
-        "
-        onClick={() => navigate(`/product/${product.slug || product.id}`)}
-      >
-        {discount && (
-          <span className="absolute top-[12px] left-[12px] z-10 bg-[#DB4444] text-white text-[12px] leading-[20px] px-[9px] rounded-[3px]">
-            {discount}
-          </span>
-        )}
-
-        <div className="absolute top-[12px] right-[12px] z-10 flex flex-col gap-[8px]">
-          <button
-            type="button"
-            onClick={(event) => event.stopPropagation()}
-            className="
-              w-[34px]
-              h-[34px]
-              rounded-full
-              bg-white
-              flex
-              items-center
-              justify-center
-              hover:text-[#DB4444]
-              transition-colors
-            "
-            aria-label="Add to wishlist"
-          >
-            <Heart size={17} strokeWidth={1.7} />
-          </button>
-        </div>
-
-        {image ? (
-          <img
-            src={image}
-            alt={product.name}
-            className="
-              w-full
-              h-full
-              object-contain
-              p-[20px]
-              transition-transform
-              duration-300
-              group-hover:scale-105
-            "
-          />
-        ) : (
-          <div className="text-[13px] text-[#999]">
-            No image
-          </div>
-        )}
-      </div>
-
-      {/* INFO */}
-      <Link
-        to={`/product/${product.slug || product.id}`}
-        className="
-          block
-          mt-[14px]
-          text-[14px]
-          leading-[20px]
-          font-medium
+          shadow-sm
           hover:text-[#DB4444]
-          transition-colors
+          hover:scale-105
+          transition-all
         "
+        aria-label={
+          isWishlisted
+            ? 'Remove from wishlist'
+            : 'Add to wishlist'
+        }
       >
-        {product.name}
-      </Link>
-
-      <div className="flex items-center gap-[10px] mt-[6px]">
-        <span className="text-[14px] font-medium text-[#DB4444]">
-          {formatPrice(price)}
-        </span>
-
-        {oldPrice > price && (
-          <span className="text-[14px] text-[#777] line-through">
-            {formatPrice(oldPrice)}
-          </span>
-        )}
-      </div>
-
-      <div className="mt-[5px]">
-        <ProductStars
-          rating={product.rating || 5}
-          reviews={reviews}
+        <Heart
+          size={18}
+          strokeWidth={1.7}
+          className={
+            isWishlisted
+              ? 'fill-[#DB4444] text-[#DB4444]'
+              : ''
+          }
         />
+      </button>
+    </div>
+
+    {image ? (
+      <img
+        src={image}
+        alt={product.name}
+        className="
+          w-full
+          h-full
+          object-contain
+          p-[24px]
+          transition-transform
+          duration-500
+          group-hover:scale-[1.05]
+        "
+      />
+    ) : (
+      <div className="text-[13px] text-[#999]">
+        No image
       </div>
-    </article>
-  );
+    )}
+  </div>
+
+  {/* INFO */}
+  <Link
+    to={`/product/${product.slug || product.id}`}
+    className="
+      block
+      mt-[16px]
+      text-[15px]
+      leading-[21px]
+      font-medium
+      hover:text-[#DB4444]
+      transition-colors
+    "
+  >
+    {product.name}
+  </Link>
+
+  <div className="flex items-center gap-[10px] mt-[8px]">
+    <span className="text-[15px] font-semibold text-[#DB4444]">
+      {formatPrice(price)}
+    </span>
+
+    {oldPrice > price && (
+      <span className="text-[14px] text-[#999] line-through">
+        {formatPrice(oldPrice)}
+      </span>
+    )}
+  </div>
+
+  <div className="mt-[7px]">
+    <ProductStars
+      rating={product.rating || 5}
+      reviews={reviews}
+    />
+  </div>
+</article>
+
+);
 }
+
 
 export function ProductDetailPage() {
   const { id } = useParams();
@@ -431,19 +495,21 @@ export function ProductDetailPage() {
   };
 
   const handleBuyNow = () => {
-  if (!hasStock) {
-    toast.error('This product is currently out of stock.');
-    return;
-  }
+    if (!hasStock) {
+      toast.error('This product is currently out of stock.');
+      return;
+    }
+    if (quantity > stock) {
+      toast.error('Not enough stock available.');
+      return;
+    }
+    addToCart({
+      ...product,
+      quantity,
+    });
 
-  if (quantity > stock) {
-    toast.error('Not enough stock available.');
-    return;
-  }
-
-  addToCart(product, quantity);
-  navigate('/checkout');
-};
+    navigate('/checkout');
+  };
 
   const handleWishlist = () => {
     if (isWishlisted) {
@@ -516,20 +582,21 @@ export function ProductDetailPage() {
                 {/* MAIN IMAGE */}
                 <div
                   className="
-                    order-1
-                    md:order-2
-                    relative
-                    w-full
-                    aspect-square
-                    md:h-[500px]
-                    md:aspect-auto
-                    bg-[#F5F5F5]
-                    rounded-[3px]
-                    overflow-hidden
-                    flex
-                    items-center
-                    justify-center
-                    cursor-zoom-in
+                     order-1
+                     md:order-2
+                     relative
+                     w-full
+                     aspect-square
+                     md:h-[520px]
+                     md:aspect-auto
+                     bg-[#F7F7F7]
+                     rounded-[8px]
+                     overflow-hidden
+                     flex
+                     items-center
+                     justify-center
+                     cursor-zoom-in
+                     group
                   "
                   onClick={() => setIsImageZoomed(true)}
                 >
@@ -541,11 +608,11 @@ export function ProductDetailPage() {
                         w-full
                         h-full
                         object-contain
-                        p-[20px]
-                        md:p-[35px]
+                        p-[24px]
+                        md:p-[42px]
                         transition-transform
-                        duration-300
-                        hover:scale-[1.03]
+                        duration-500
+                        group-hover:scale-[1.05]
                       "
                     />
                   ) : (
@@ -639,9 +706,9 @@ export function ProductDetailPage() {
                           w-[80px]
                           h-[70px]
                           md:w-[110px]
-                          md:h-[90px]
-                          rounded-[3px]
-                          bg-[#F5F5F5]
+                          md:h-[94px]
+                          rounded-[8px]                          
+                          bg-[#F7F7F7]
                           overflow-hidden
                           flex
                           items-center
@@ -649,8 +716,8 @@ export function ProductDetailPage() {
                           border
                           transition-all
                           ${selectedImage === index
-                            ? 'border-[#DB4444]'
-                            : 'border-transparent'
+                            ? 'border-[#DB4444] shadow-sm'
+                            : 'border-transparent hover:border-[#D0D0D0]'
                           }
                         `}
                         aria-label={`Product image ${index + 1}`}
@@ -658,8 +725,16 @@ export function ProductDetailPage() {
                         <img
                           src={image}
                           alt=""
-                          className="w-full h-full object-contain p-[8px]"
-                        />
+                          className="
+                            w-full
+                            h-full
+                            object-contain
+                            p-[10px]
+                            transition-transform
+                            duration-300
+                            group-hover:scale-[1.03]
+                         " 
+                         />
                       </button>
                     ))}
                   </div>
@@ -669,12 +744,19 @@ export function ProductDetailPage() {
 
             {/* PRODUCT INFORMATION */}
 
-            <div className="pt-[0px]">
-              <h1 className="text-[24px] md:text-[28px] leading-[34px] font-semibold">
+           <div className="pt-[4px]">
+  <h1 className="
+    text-[26px]
+    md:text-[32px]
+    leading-[34px]
+    md:leading-[40px]
+    font-semibold
+    tracking-[-0.3px]
+  ">
                 {productName}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-[12px] mt-[10px]">
+              <div className="flex flex-wrap items-center gap-[12px] mt-[14px]">
                 <ProductStars
                   rating={rating}
                   reviews={reviews}
@@ -702,16 +784,22 @@ export function ProductDetailPage() {
               </div>
 
               {/* PRICE */}
-              <div className="mt-[12px] text-[22px] font-medium">
+              <div className="mt-[18px] text-[28px] md:text-[30px] font-semibold tracking-[-0.3px]">
                 {formatPrice(price)}
               </div>
 
               {/* DESCRIPTION */}
-              <p className="mt-[16px] max-w-[520px] text-[13px] leading-[21px] text-[#333]">
+              <p className="
+  mt-[16px]
+  max-w-[540px]
+  text-[14px]
+  leading-[23px]
+  text-[#555]
+">
                 {description}
               </p>
 
-              <div className="w-full h-[1px] bg-[#999] mt-[18px]" />
+              <div className="w-full h-[1px] bg-[#E5E5E5] mt-[24px]" />
 
               {/* COLORS */}
               {(product.colors?.length > 0 ||
@@ -730,16 +818,16 @@ export function ProductDetailPage() {
                             setSelectedColor(0)
                           }
                           className={`
-                          w-[18px]
-                          h-[18px]
+                          w-[22px]
+                          h-[22px]
                           rounded-full
                           border-[2px]
                           border-white
                           outline
                           ${selectedColor === 0
-                              ? 'outline-black'
-                              : 'outline-transparent'
-                            }
+  ? 'outline-black outline-[2px]'
+  : 'outline-transparent'
+}
                         `}
                           style={{
                             backgroundColor:
@@ -823,12 +911,12 @@ export function ProductDetailPage() {
                           setSelectedSize(size)
                         }
                         className={`
-                          min-w-[32px]
-                          h-[32px]
+                          min-w-[40px]
+                          h-[38px]
                           px-[7px]
                           rounded-[3px]
                           border
-                          text-[12px]
+                          text-[13px]
                           flex
                           items-center
                           justify-center
@@ -847,9 +935,15 @@ export function ProductDetailPage() {
               </div>
 
               {/* ACTIONS */}
-              <div className="flex flex-wrap items-center gap-[10px] mt-[20px]">
+              <div className="
+  flex
+  flex-wrap
+  items-center
+  gap-[10px]
+  mt-[26px]
+">
                 {/* QUANTITY */}
-                <div className="flex h-[44px] border border-[#999] rounded-[3px] overflow-hidden">
+                <div className="flex h-[48px] border border-[#BDBDBD] rounded-[6px] overflow-hidden">
                   <button
                     type="button"
                     onClick={handleQuantityDecrease}
@@ -891,9 +985,9 @@ export function ProductDetailPage() {
                   onClick={handleAddToCart}
                   disabled={!hasStock}
                   className="
-                    h-[44px]
-                    px-[25px]
-                    rounded-[3px]
+                    h-[48px]
+                    px-[30px]
+                    rounded-[6px]
                     bg-[#DB4444]
                     text-white
                     text-[14px]
@@ -913,9 +1007,9 @@ export function ProductDetailPage() {
                   onClick={handleBuyNow}
                   disabled={!hasStock}
                   className="
-                    h-[44px]
-                    px-[25px]
-                    rounded-[3px]
+                    h-[48px]
+                    px-[30px]
+                    rounded-[6px]
                     border
                     border-[#DB4444]
                     text-[#DB4444]
@@ -936,9 +1030,9 @@ export function ProductDetailPage() {
                   type="button"
                   onClick={handleWishlist}
                   className="
-                    w-[44px]
-                    h-[44px]
-                    rounded-[3px]
+                    w-[48px]
+                    h-[48px]
+                    rounded-[6px]
                     border
                     border-[#999]
                     flex
@@ -967,8 +1061,15 @@ export function ProductDetailPage() {
               </div>
 
               {/* DELIVERY */}
-              <div className="mt-[30px] border border-[#999] rounded-[3px] overflow-hidden">
-                <div className="min-h-[72px] flex items-center gap-[16px] px-[16px] py-[12px]">
+              <div className="
+  mt-[28px]
+  border
+  border-[#E2E2E2]
+  rounded-[8px]
+  overflow-hidden
+  bg-white
+">
+                <div className="min-h-[82px] flex items-center gap-[16px] px-[18px] py-[14px]">
                   <Truck
                     size={27}
                     strokeWidth={1.5}
@@ -979,15 +1080,15 @@ export function ProductDetailPage() {
                       Free Delivery
                     </div>
 
-                    <div className="text-[11px] mt-[5px] underline">
+                    <div className="text-[12px] mt-[5px] underline">
                       Enter your postal code for Delivery Availability
                     </div>
                   </div>
                 </div>
 
-                <div className="h-[1px] bg-[#999]" />
+                <div className="h-[1px] bg-[#E8E8E8]" />
 
-                <div className="min-h-[72px] flex items-center gap-[16px] px-[16px] py-[12px]">
+                <div className="min-h-[82px] flex items-center gap-[16px] px-[18px] py-[14px]">
                   <RotateCcw
                     size={25}
                     strokeWidth={1.5}
@@ -998,7 +1099,7 @@ export function ProductDetailPage() {
                       Return Delivery
                     </div>
 
-                    <div className="text-[11px] mt-[5px]">
+                    <div className="text-[12px] mt-[5px]">
                       Free 30 Days Delivery Returns.{' '}
                       <span className="underline cursor-pointer">
                         Details
@@ -1014,23 +1115,51 @@ export function ProductDetailPage() {
         {/* RELATED PRODUCTS */}
 
         {relatedProducts.length > 0 && (
-          <section className="max-w-[1170px] mx-auto px-4 lg:px-0 mt-[85px] md:mt-[105px] pb-[90px]">
-            <div className="flex items-center gap-[12px] mb-[30px]">
-              <span className="block w-[20px] h-[40px] bg-[#DB4444] rounded-[3px]" />
+          <section
+  className="
+    max-w-[1170px]
+    mx-auto
+    px-4
+    lg:px-0
+    mt-[65px]
+    md:mt-[80px]
+    pb-[80px]
+  "
+>
+            <div className="flex items-center gap-[12px] mb-[28px]">
+  <span
+    className="
+      block
+      w-[20px]
+      h-[40px]
+      bg-[#DB4444]
+      rounded-[4px]
+    "
+  />
 
-              <h2 className="m-0 text-[20px] md:text-[24px] font-semibold">
-                Related Items
-              </h2>
-            </div>
+  <h2
+    className="
+      m-0
+      text-[21px]
+      md:text-[24px]
+      leading-[32px]
+      font-semibold
+      tracking-[-0.2px]
+    "
+  >
+    Related Items
+  </h2>
+</div>
 
             <div className="
               grid
-              grid-cols-2
-              md:grid-cols-3
-              lg:grid-cols-4
-              gap-x-[18px]
-              md:gap-x-[25px]
-              gap-y-[35px]
+              grid
+grid-cols-2
+md:grid-cols-3
+lg:grid-cols-4
+gap-x-[16px]
+md:gap-x-[24px]
+gap-y-[38px]
             ">
               {relatedProducts.slice(0, 4).map((item) => (
                 <RelatedProductCard
