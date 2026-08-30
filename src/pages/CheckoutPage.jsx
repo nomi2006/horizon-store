@@ -264,9 +264,9 @@ export function CheckoutPage() {
        *
        * We deliberately do NOT mark either method as "paid".
        */
-      if (paymentMethod === 'cod') {
-        await orderService.updateStatus(order.id, 'processing');
-      }
+      // if (paymentMethod === 'cod') {
+      //   await orderService.updateStatus(order.id, 'processing');
+      // }
 
       /*
        * Only increment coupon usage AFTER the order has successfully

@@ -431,23 +431,19 @@ export function ProductDetailPage() {
   };
 
   const handleBuyNow = () => {
-    if (!hasStock) {
-      toast.error('This product is currently out of stock.');
-      return;
-    }
+  if (!hasStock) {
+    toast.error('This product is currently out of stock.');
+    return;
+  }
 
-    if (quantity > stock) {
-      toast.error('Not enough stock available.');
-      return;
-    }
+  if (quantity > stock) {
+    toast.error('Not enough stock available.');
+    return;
+  }
 
-    addItem({
-      ...product,
-      quantity,
-    });
-
-    navigate('/checkout');
-  };
+  addToCart(product, quantity);
+  navigate('/checkout');
+};
 
   const handleWishlist = () => {
     if (isWishlisted) {
@@ -652,10 +648,9 @@ export function ProductDetailPage() {
                           justify-center
                           border
                           transition-all
-                          ${
-                            selectedImage === index
-                              ? 'border-[#DB4444]'
-                              : 'border-transparent'
+                          ${selectedImage === index
+                            ? 'border-[#DB4444]'
+                            : 'border-transparent'
                           }
                         `}
                         aria-label={`Product image ${index + 1}`}
@@ -722,98 +717,95 @@ export function ProductDetailPage() {
               {(product.colors?.length > 0 ||
                 product.color ||
                 product.secondaryColor) && (
-                <div className="flex items-center gap-[15px] mt-[16px]">
-                  <span className="text-[16px]">
-                    Colours:
-                  </span>
+                  <div className="flex items-center gap-[15px] mt-[16px]">
+                    <span className="text-[16px]">
+                      Colours:
+                    </span>
 
-                  <div className="flex items-center gap-[8px]">
-                    {product.color && (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setSelectedColor(0)
-                        }
-                        className={`
+                    <div className="flex items-center gap-[8px]">
+                      {product.color && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSelectedColor(0)
+                          }
+                          className={`
                           w-[18px]
                           h-[18px]
                           rounded-full
                           border-[2px]
                           border-white
                           outline
-                          ${
-                            selectedColor === 0
+                          ${selectedColor === 0
                               ? 'outline-black'
                               : 'outline-transparent'
-                          }
-                        `}
-                        style={{
-                          backgroundColor:
-                            product.color,
-                        }}
-                        aria-label="Select color"
-                      />
-                    )}
-
-                    {product.secondaryColor && (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setSelectedColor(1)
-                        }
-                        className={`
-                          w-[18px]
-                          h-[18px]
-                          rounded-full
-                          border-[2px]
-                          border-white
-                          outline
-                          ${
-                            selectedColor === 1
-                              ? 'outline-black'
-                              : 'outline-transparent'
-                          }
-                        `}
-                        style={{
-                          backgroundColor:
-                            product.secondaryColor,
-                        }}
-                        aria-label="Select color"
-                      />
-                    )}
-
-                    {Array.isArray(product.colors) &&
-                      product.colors
-                        .slice(0, 4)
-                        .map((color, index) => (
-                          <button
-                            key={`${color}-${index}`}
-                            type="button"
-                            onClick={() =>
-                              setSelectedColor(index)
                             }
-                            className={`
+                        `}
+                          style={{
+                            backgroundColor:
+                              product.color,
+                          }}
+                          aria-label="Select color"
+                        />
+                      )}
+
+                      {product.secondaryColor && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSelectedColor(1)
+                          }
+                          className={`
+                          w-[18px]
+                          h-[18px]
+                          rounded-full
+                          border-[2px]
+                          border-white
+                          outline
+                          ${selectedColor === 1
+                              ? 'outline-black'
+                              : 'outline-transparent'
+                            }
+                        `}
+                          style={{
+                            backgroundColor:
+                              product.secondaryColor,
+                          }}
+                          aria-label="Select color"
+                        />
+                      )}
+
+                      {Array.isArray(product.colors) &&
+                        product.colors
+                          .slice(0, 4)
+                          .map((color, index) => (
+                            <button
+                              key={`${color}-${index}`}
+                              type="button"
+                              onClick={() =>
+                                setSelectedColor(index)
+                              }
+                              className={`
                               w-[18px]
                               h-[18px]
                               rounded-full
                               border-[2px]
                               border-white
                               outline
-                              ${
-                                selectedColor === index
+                              ${selectedColor === index
                                   ? 'outline-black'
                                   : 'outline-transparent'
-                              }
+                                }
                             `}
-                            style={{
-                              backgroundColor: color,
-                            }}
-                            aria-label="Select color"
-                          />
-                        ))}
+                              style={{
+                                backgroundColor: color,
+                              }}
+                              aria-label="Select color"
+                            />
+                          ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* SIZE */}
               <div className="flex items-center gap-[15px] mt-[18px]">
@@ -841,10 +833,9 @@ export function ProductDetailPage() {
                           items-center
                           justify-center
                           transition-colors
-                          ${
-                            selectedSize === size
-                              ? 'bg-[#DB4444] border-[#DB4444] text-white'
-                              : 'border-[#999] hover:border-black'
+                          ${selectedSize === size
+                            ? 'bg-[#DB4444] border-[#DB4444] text-white'
+                            : 'border-[#999] hover:border-black'
                           }
                         `}
                       >

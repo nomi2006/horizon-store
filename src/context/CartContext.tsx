@@ -62,29 +62,37 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }, [cart]);
 
   const addToCart = (product: any, quantity: number = 1) => {
-    if (!cart) {
-      // initialize if null
-      setCart({ items: [] });
-      // re-run after state update? use a callback? we'll handle via useEffect pattern
-      // simpler: just call add again after set? Not ideal, but we'll do direct manipulation
-      const newCart = { items: [{ ...product, quantity }] };
-      setCart(newCart);
-      localStorage.setItem('cart', JSON.stringify(newCart));
-      return;
-    }
+    setCart((currentCart) => {
+      const currentItems = currentCart?.items || [];
+      const existingIndex = currentItems.findIndex(
+        (item) => item.id === product.id
+      );
 
-    const existingIndex = cart.items.findIndex((item) => item.id === product.id);
-    let newItems;
-    if (existingIndex >= 0) {
-      // update quantity
-      newItems = [...cart.items];
-      newItems[existingIndex].quantity += quantity;
-    } else {
-      newItems = [...cart.items, { ...product, quantity }];
-    }
-    setCart({ items: newItems });
+      let newItems;
+
+      if (existingIndex >= 0) {
+        newItems = [...currentItems];
+
+        newItems[existingIndex] = {
+          ...newItems[existingIndex],
+          quantity:
+            Number(newItems[existingIndex].quantity || 0) + quantity,
+        };
+      } else {
+        newItems = [
+          ...currentItems,
+          {
+            ...product,
+            quantity,
+          },
+        ];
+      }
+
+      return {
+        items: newItems,
+      };
+    });
   };
-
   const updateQuantity = (productId: string | number, quantity: number) => {
     if (!cart) return;
     if (quantity <= 0) {

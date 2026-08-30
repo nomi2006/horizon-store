@@ -143,14 +143,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     e.preventDefault();
     e.stopPropagation();
 
-    if (!user) {
-      return;
-    }
-
     setIsAddingToCart(true);
 
     try {
-      await addToCart(product.id, 1);
+      await addToCart(product, 1);
     } catch (error) {
       console.error(
         'Error adding to cart:',

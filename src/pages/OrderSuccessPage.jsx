@@ -25,11 +25,11 @@ export function OrderSuccessPage() {
         )}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            to="/dashboard"
+            to="/orders"
             className="btn-primary inline-flex"
           >
             <Package className="h-5 w-5 mr-2" />
-            View Orders
+            View My Orders
           </Link>
           <Link
             to="/shop"

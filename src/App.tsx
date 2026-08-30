@@ -17,6 +17,8 @@ import { UpdatePasswordPage } from './pages/UpdatePasswordPage'
 import { CartPage } from './pages/CartPage'
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OrderSuccessPage } from './pages/OrderSuccessPage'
+import { OrderHistoryPage } from './pages/OrderHistoryPage';
+import { OrderDetailsPage } from './pages/OrderDetailsPage';
 import { DashboardPage } from './pages/DashboardPage'
 import { OrdersPage } from './pages/OrdersPage'
 import { WishlistPage } from './pages/WishlistPage'
@@ -72,6 +74,8 @@ function App() {
                   <Route path="/cart" element={<CartPage />} />
                   <Route path="/checkout" element={<CheckoutPage />} />
                   <Route path="/order-success" element={<ProtectedRoute><OrderSuccessPage /></ProtectedRoute>} />
+                  <Route path="/orders" element={<OrderHistoryPage />} />
+                  <Route path="/orders/:id" element={<OrderDetailsPage />} />
                   <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
                   <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
                   <Route path="/wishlist" element={<ProtectedRoute><WishlistPage /></ProtectedRoute>} />
