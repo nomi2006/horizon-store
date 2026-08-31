@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 
 const Navbar: React.FC = () => {
   const { user, signOut } = useAuth();
   const { cart } = useCart();
+  const { items: wishlistItems } = useWishlist();
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -17,6 +22,13 @@ const Navbar: React.FC = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const cartItemCount =
+    cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
+
+  const wishlistItemCount = wishlistItems?.length || 0;
+
+  const isProfilePage = location.pathname === '/profile';
 
   // Close mobile menu and account dropdown when clicking outside
   useEffect(() => {
@@ -67,7 +79,10 @@ const Navbar: React.FC = () => {
     e.preventDefault();
 
     if (searchQuery.trim()) {
-      navigate(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(
+        `/shop?search=${encodeURIComponent(searchQuery.trim())}`
+      );
+
       setIsSearchOpen(false);
       setSearchQuery('');
     }
@@ -90,9 +105,6 @@ const Navbar: React.FC = () => {
 
     setIsAccountOpen((prev) => !prev);
   };
-
-  const cartItemCount =
-    cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   // Main navigation
   // Logout is intentionally NOT included here.
@@ -158,13 +170,18 @@ const Navbar: React.FC = () => {
               {/* Search */}
               <div className="relative flex items-center">
                 {isSearchOpen ? (
-                  <form onSubmit={handleSearch} className="flex items-center">
+                  <form
+                    onSubmit={handleSearch}
+                    className="flex items-center"
+                  >
                     <div className="relative">
                       <input
                         ref={searchInputRef}
                         type="text"
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={(e) =>
+                          setSearchQuery(e.target.value)
+                        }
                         placeholder="What are you looking for?"
                         className="w-[180px] md:w-[240px] h-[38px] px-4 pr-10 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:border-gray-400 transition-colors duration-200"
                       />
@@ -240,8 +257,12 @@ const Navbar: React.FC = () => {
               {/* Wishlist */}
               <Link
                 to="/wishlist"
-                className="text-gray-600 hover:text-gray-900 transition-colors p-1"
-                aria-label="Wishlist"
+                className="text-gray-600 hover:text-gray-900 transition-colors p-1 relative"
+                aria-label={`Wishlist${
+                  wishlistItemCount > 0
+                    ? ` (${wishlistItemCount})`
+                    : ''
+                }`}
               >
                 <svg
                   className="w-[22px] h-[22px]"
@@ -256,6 +277,14 @@ const Navbar: React.FC = () => {
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   />
                 </svg>
+
+                {wishlistItemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-[18px] h-[18px] flex items-center justify-center">
+                    {wishlistItemCount > 99
+                      ? '99+'
+                      : wishlistItemCount}
+                  </span>
+                )}
               </Link>
 
               {/* Cart */}
@@ -280,13 +309,18 @@ const Navbar: React.FC = () => {
 
                 {cartItemCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-[18px] h-[18px] flex items-center justify-center">
-                    {cartItemCount > 99 ? '99+' : cartItemCount}
+                    {cartItemCount > 99
+                      ? '99+'
+                      : cartItemCount}
                   </span>
                 )}
               </Link>
 
               {/* Account */}
-              <div ref={accountRef} className="relative">
+              <div
+                ref={accountRef}
+                className="relative"
+              >
                 <button
                   type="button"
                   onClick={handleAccountClick}
@@ -295,16 +329,25 @@ const Navbar: React.FC = () => {
                     transition-all duration-200
                     focus:outline-none
                     ${
-                      user
+                      user &&
+                      (isProfilePage || isAccountOpen)
                         ? 'w-[32px] h-[32px] rounded-full bg-red-500 text-white hover:bg-red-600'
                         : 'text-gray-600 hover:text-gray-900 p-1'
                     }
                   `}
-                  aria-label={user ? 'Account menu' : 'Login'}
-                  aria-expanded={user ? isAccountOpen : undefined}
+                  aria-label={
+                    user ? 'Account menu' : 'Login'
+                  }
+                  aria-expanded={
+                    user ? isAccountOpen : undefined
+                  }
                 >
                   <svg
-                    className={user ? 'w-[19px] h-[19px]' : 'w-[22px] h-[22px]'}
+                    className={
+                      user
+                        ? 'w-[19px] h-[19px]'
+                        : 'w-[22px] h-[22px]'
+                    }
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -345,7 +388,10 @@ const Navbar: React.FC = () => {
                             d="M20 21a8 8 0 00-16 0m12-12a4 4 0 11-8 0 4 4 0 018 0z"
                           />
                         </svg>
-                        <span>Manage My Account</span>
+
+                        <span>
+                          Manage My Account
+                        </span>
                       </button>
 
                       {/* My Order */}
@@ -376,6 +422,7 @@ const Navbar: React.FC = () => {
                             d="M8 6h8M8 10h8M8 14h5"
                           />
                         </svg>
+
                         <span>My Order</span>
                       </button>
 
@@ -407,7 +454,10 @@ const Navbar: React.FC = () => {
                             d="M9 19l6-6m0 6l-6-6"
                           />
                         </svg>
-                        <span>My Cancellations</span>
+
+                        <span>
+                          My Cancellations
+                        </span>
                       </button>
 
                       {/* My Reviews */}
@@ -432,6 +482,7 @@ const Navbar: React.FC = () => {
                             d="M12 17.3l5.15 3.1-1.37-5.87 4.56-3.95-6.02-.51L12 4.5 9.68 10.07l-6.02.51 4.56 3.95-1.37 5.87L12 17.3z"
                           />
                         </svg>
+
                         <span>My Reviews</span>
                       </button>
 
@@ -457,6 +508,7 @@ const Navbar: React.FC = () => {
                             d="M15 12H3m0 0l4-4m-4 4l4 4M21 4v16a2 2 0 01-2 2H9"
                           />
                         </svg>
+
                         <span>Logout</span>
                       </button>
 
@@ -495,6 +547,7 @@ const Navbar: React.FC = () => {
                 )}
               </svg>
             </button>
+
           </div>
         </div>
 
@@ -508,11 +561,16 @@ const Navbar: React.FC = () => {
               <div className="flex flex-col gap-3">
 
                 {/* Mobile Search */}
-                <form onSubmit={handleSearch} className="flex items-center mb-2">
+                <form
+                  onSubmit={handleSearch}
+                  className="flex items-center mb-2"
+                >
                   <input
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) =>
+                      setSearchQuery(e.target.value)
+                    }
                     placeholder="What are you looking for?"
                     className="flex-1 h-[42px] px-4 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-l-md focus:outline-none focus:border-gray-400"
                   />
@@ -553,10 +611,18 @@ const Navbar: React.FC = () => {
                 {/* Mobile Wishlist */}
                 <Link
                   to="/wishlist"
-                  className="text-[15px] font-normal text-gray-700 hover:text-gray-900 hover:font-bold transition-all duration-150 py-1"
                   onClick={() => setIsMenuOpen(false)}
+                  className="text-[15px] font-normal text-gray-700 hover:text-gray-900 hover:font-bold transition-all duration-150 py-1 flex items-center gap-2"
                 >
-                  Wishlist
+                  <span>Wishlist</span>
+
+                  {wishlistItemCount > 0 && (
+                    <span className="bg-red-500 text-white text-[10px] font-bold rounded-full w-[18px] h-[18px] flex items-center justify-center">
+                      {wishlistItemCount > 99
+                        ? '99+'
+                        : wishlistItemCount}
+                    </span>
+                  )}
                 </Link>
 
                 {/* Mobile Cart */}
@@ -565,11 +631,13 @@ const Navbar: React.FC = () => {
                   className="text-[15px] font-normal text-gray-700 hover:text-gray-900 hover:font-bold transition-all duration-150 py-1 flex items-center gap-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Cart
+                  <span>Cart</span>
 
                   {cartItemCount > 0 && (
                     <span className="bg-red-500 text-white text-[10px] font-bold rounded-full w-[18px] h-[18px] flex items-center justify-center">
-                      {cartItemCount > 99 ? '99+' : cartItemCount}
+                      {cartItemCount > 99
+                        ? '99+'
+                        : cartItemCount}
                     </span>
                   )}
                 </Link>
@@ -578,6 +646,8 @@ const Navbar: React.FC = () => {
                 {user ? (
                   <>
                     <div className="border-t border-gray-200 pt-3 mt-1">
+
+                      {/* Manage My Account */}
                       <button
                         type="button"
                         onClick={() => {
@@ -589,6 +659,7 @@ const Navbar: React.FC = () => {
                         Manage My Account
                       </button>
 
+                      {/* My Order */}
                       <button
                         type="button"
                         onClick={() => {
@@ -600,6 +671,7 @@ const Navbar: React.FC = () => {
                         My Order
                       </button>
 
+                      {/* Logout */}
                       <button
                         type="button"
                         onClick={() => {
@@ -610,6 +682,7 @@ const Navbar: React.FC = () => {
                       >
                         Logout
                       </button>
+
                     </div>
                   </>
                 ) : (
@@ -624,6 +697,7 @@ const Navbar: React.FC = () => {
                     Login
                   </button>
                 )}
+
               </div>
             </div>
           </div>

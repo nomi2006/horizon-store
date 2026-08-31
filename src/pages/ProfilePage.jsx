@@ -15,15 +15,15 @@ import {
   BookOpen,
   Save
 } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
 
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../services/supabase'
 import toast from 'react-hot-toast'
 
 import TopBar from '../components/TopBar'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+// import Footer from '../components/Footer'
 
 const profileSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -221,7 +221,7 @@ export function ProfilePage() {
 
       {/* Welcome */}
       <main className="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-0 pb-20">
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex justify-end mb-10">
           <h1 className="text-[24px] sm:text-[28px] font-semibold text-gray-900">
             Welcome!{' '}
             <span className="text-red-500">
@@ -232,9 +232,7 @@ export function ProfilePage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)] gap-12">
 
-          {/* =========================================================
-              LEFT SIDEBAR
-          ========================================================== */}
+          {/* LEFT SIDEBAR */}
           <aside className="w-full">
 
             {/* Manage My Account */}
@@ -246,7 +244,10 @@ export function ProfilePage() {
               <nav className="flex flex-col gap-3 pl-4">
                 <Link
                   to="/profile"
-                  className="text-[14px] text-red-500 font-medium"
+                  className={`text-[14px] transition-colors ${location.pathname === '/profile'
+                    ? 'text-red-500 font-medium'
+                    : 'text-gray-500 hover:text-gray-900'
+                    }`}
                 >
                   My Profile
                 </Link>
@@ -320,9 +321,7 @@ export function ProfilePage() {
             </div>
           </aside>
 
-          {/* =========================================================
-              RIGHT CONTENT
-          ========================================================== */}
+          {/* RIGHT CONTENT */}
           <section className="min-w-0">
 
             {/* Edit Your Profile */}
@@ -362,10 +361,9 @@ export function ProfilePage() {
                         placeholder:text-gray-400
                         outline-none
                         transition-colors
-                        ${
-                          errors.firstName
-                            ? 'border-red-500'
-                            : 'border-transparent focus:border-gray-300'
+                        ${errors.firstName
+                          ? 'border-red-500'
+                          : 'border-transparent focus:border-gray-300'
                         }
                       `}
                       placeholder="First Name"
@@ -401,10 +399,9 @@ export function ProfilePage() {
                         placeholder:text-gray-400
                         outline-none
                         transition-colors
-                        ${
-                          errors.lastName
-                            ? 'border-red-500'
-                            : 'border-transparent focus:border-gray-300'
+                        ${errors.lastName
+                          ? 'border-red-500'
+                          : 'border-transparent focus:border-gray-300'
                         }
                       `}
                       placeholder="Last Name"
@@ -512,10 +509,9 @@ export function ProfilePage() {
                           placeholder:text-gray-400
                           outline-none
                           transition-colors
-                          ${
-                            passwordErrors.currentPassword
-                              ? 'border-red-500'
-                              : 'border-transparent focus:border-gray-300'
+                          ${passwordErrors.currentPassword
+                            ? 'border-red-500'
+                            : 'border-transparent focus:border-gray-300'
                           }
                         `}
                       />
@@ -548,10 +544,9 @@ export function ProfilePage() {
                           placeholder:text-gray-400
                           outline-none
                           transition-colors
-                          ${
-                            passwordErrors.newPassword
-                              ? 'border-red-500'
-                              : 'border-transparent focus:border-gray-300'
+                          ${passwordErrors.newPassword
+                            ? 'border-red-500'
+                            : 'border-transparent focus:border-gray-300'
                           }
                         `}
                       />
@@ -584,10 +579,9 @@ export function ProfilePage() {
                           placeholder:text-gray-400
                           outline-none
                           transition-colors
-                          ${
-                            passwordErrors.confirmPassword
-                              ? 'border-red-500'
-                              : 'border-transparent focus:border-gray-300'
+                          ${passwordErrors.confirmPassword
+                            ? 'border-red-500'
+                            : 'border-transparent focus:border-gray-300'
                           }
                         `}
                       />
