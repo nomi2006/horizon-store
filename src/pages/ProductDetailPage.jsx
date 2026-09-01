@@ -113,7 +113,6 @@ const isWishlisted = isInWishlist(product.id);
 const handleWishlist = (event) => {
 event.stopPropagation();
 
-```
 if (isWishlisted) {
   removeWishlist(product.id);
   toast.success('Removed from wishlist');
@@ -121,7 +120,6 @@ if (isWishlisted) {
   addWishlist(product);
   toast.success('Added to wishlist');
 }
-```
 
 };
 
