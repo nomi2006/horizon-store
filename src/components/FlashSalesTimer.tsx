@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-const SALE_END_DATE = '2026-08-25T23:59:59+05:00';
-
 interface TimeLeft {
   days: number;
   hours: number;
@@ -9,9 +7,41 @@ interface TimeLeft {
   seconds: number;
 }
 
-const calculateTimeLeft = (): TimeLeft => {
-  const difference =
-    new Date(SALE_END_DATE).getTime() - Date.now();
+const STORAGE_KEY = 'horizon-flash-sale-end-time';
+
+// Dummy flash sale duration: 3 hours
+const SALE_DURATION = 3 * 60 * 60 * 1000;
+
+const getSaleEndTime = (): number => {
+  const storedEndTime = localStorage.getItem(STORAGE_KEY);
+
+  if (storedEndTime) {
+    const endTime = Number(storedEndTime);
+
+    // Use the existing sale if it has not expired
+    if (
+      Number.isFinite(endTime) &&
+      endTime > Date.now()
+    ) {
+      return endTime;
+    }
+  }
+
+  // Create a new 3-hour flash sale
+  const newEndTime = Date.now() + SALE_DURATION;
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    String(newEndTime)
+  );
+
+  return newEndTime;
+};
+
+const calculateTimeLeft = (
+  endTime: number
+): TimeLeft => {
+  const difference = endTime - Date.now();
 
   if (difference <= 0) {
     return {
@@ -42,12 +72,56 @@ const calculateTimeLeft = (): TimeLeft => {
 };
 
 const FlashSalesTimer: React.FC = () => {
+  const [saleEndTime, setSaleEndTime] =
+    useState<number | null>(null);
+
   const [timeLeft, setTimeLeft] =
-    useState<TimeLeft>(calculateTimeLeft);
+    useState<TimeLeft>({
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    });
 
   useEffect(() => {
+    // Get the existing sale or create a new one
+    const endTime = getSaleEndTime();
+
+    setSaleEndTime(endTime);
+    setTimeLeft(calculateTimeLeft(endTime));
+  }, []);
+
+  useEffect(() => {
+    if (saleEndTime === null) {
+      return;
+    }
+
     const updateTimer = () => {
-      setTimeLeft(calculateTimeLeft());
+      const difference =
+        saleEndTime - Date.now();
+
+      if (difference > 0) {
+        setTimeLeft(
+          calculateTimeLeft(saleEndTime)
+        );
+
+        return;
+      }
+
+      // Current sale has ended.
+      // Automatically start a new 3-hour sale.
+      const newEndTime =
+        Date.now() + SALE_DURATION;
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        String(newEndTime)
+      );
+
+      setSaleEndTime(newEndTime);
+      setTimeLeft(
+        calculateTimeLeft(newEndTime)
+      );
     };
 
     // Update immediately
@@ -62,9 +136,11 @@ const FlashSalesTimer: React.FC = () => {
     return () => {
       window.clearInterval(timer);
     };
-  }, []);
+  }, [saleEndTime]);
 
-  const formatNumber = (number: number): string => {
+  const formatNumber = (
+    number: number
+  ): string => {
     return String(number).padStart(2, '0');
   };
 

@@ -20,6 +20,7 @@ const Navbar: React.FC = () => {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
 
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const accountRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -35,7 +36,11 @@ const Navbar: React.FC = () => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
 
-      if (menuRef.current && !menuRef.current.contains(target)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(target) &&
+        !menuButtonRef.current?.contains(target)
+      ) {
         setIsMenuOpen(false);
       }
 
@@ -117,13 +122,13 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 h-[72px]">
-        <div className="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-0 h-full">
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 min-h-[64px] sm:min-h-[68px] lg:h-[72px]">
+        <div className="max-w-[1170px] mx-auto px-4 sm:px-6 lg:px-0 min-h-[64px] sm:min-h-[68px] lg:h-full">
           <div className="flex items-center justify-between h-full">
 
             {/* Logo */}
             <Link to="/" className="flex-shrink-0">
-              <span className="text-2xl font-bold text-gray-900 tracking-tight hover:text-gray-700 transition-colors duration-200">
+              <span className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight hover:text-gray-700 transition-colors duration-200">
                 Horizon
               </span>
             </Link>
@@ -139,10 +144,9 @@ const Navbar: React.FC = () => {
                   className={`
                     relative text-[15px] font-normal text-gray-700
                     transition-all duration-150 ease-in-out
-                    ${
-                      hoveredLink === link.name
-                        ? 'font-bold text-gray-900'
-                        : ''
+                    ${hoveredLink === link.name
+                      ? 'font-bold text-gray-900'
+                      : ''
                     }
                     h-full flex items-center
                   `}
@@ -153,10 +157,9 @@ const Navbar: React.FC = () => {
                     className={`
                       absolute bottom-0 left-0 h-[2px] bg-gray-900
                       transition-all duration-150 ease-in-out
-                      ${
-                        hoveredLink === link.name
-                          ? 'w-full opacity-100'
-                          : 'w-0 opacity-0'
+                      ${hoveredLink === link.name
+                        ? 'w-full opacity-100'
+                        : 'w-0 opacity-0'
                       }
                     `}
                   />
@@ -258,11 +261,10 @@ const Navbar: React.FC = () => {
               <Link
                 to="/wishlist"
                 className="text-gray-600 hover:text-gray-900 transition-colors p-1 relative"
-                aria-label={`Wishlist${
-                  wishlistItemCount > 0
-                    ? ` (${wishlistItemCount})`
-                    : ''
-                }`}
+                aria-label={`Wishlist${wishlistItemCount > 0
+                  ? ` (${wishlistItemCount})`
+                  : ''
+                  }`}
               >
                 <svg
                   className="w-[22px] h-[22px]"
@@ -328,11 +330,10 @@ const Navbar: React.FC = () => {
                     flex items-center justify-center
                     transition-all duration-200
                     focus:outline-none
-                    ${
-                      user &&
+                    ${user &&
                       (isProfilePage || isAccountOpen)
-                        ? 'w-[32px] h-[32px] rounded-full bg-red-500 text-white hover:bg-red-600'
-                        : 'text-gray-600 hover:text-gray-900 p-1'
+                      ? 'w-[32px] h-[32px] rounded-full bg-red-500 text-white hover:bg-red-600'
+                      : 'text-gray-600 hover:text-gray-900 p-1'
                     }
                   `}
                   aria-label={
@@ -520,8 +521,9 @@ const Navbar: React.FC = () => {
 
             {/* Mobile Menu Button */}
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+              ref={menuButtonRef}
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              className="lg:hidden p-2 -mr-2 text-gray-600 hover:text-gray-900 transition-colors"
               aria-label="Toggle menu"
             >
               <svg
@@ -555,9 +557,20 @@ const Navbar: React.FC = () => {
         {isMenuOpen && (
           <div
             ref={menuRef}
-            className="mobile-nav-panel lg:hidden bg-white border-t border-gray-200 shadow-lg animate-slide-down overflow-y-auto max-h-[80vh]"
+            className="
+  mobile-nav-panel
+  lg:hidden
+  bg-white
+  border-t
+  border-gray-200
+  shadow-lg
+  animate-slide-down
+  overflow-y-auto
+  max-h-[calc(100vh-64px)]
+  sm:max-h-[calc(100vh-68px)]
+"
           >
-            <div className="max-w-[1170px] mx-auto px-4 py-4">
+            <div className="max-w-[1170px] mx-auto px-4 sm:px-6 py-4">
               <div className="flex flex-col gap-3">
 
                 {/* Mobile Search */}
@@ -572,7 +585,20 @@ const Navbar: React.FC = () => {
                       setSearchQuery(e.target.value)
                     }
                     placeholder="What are you looking for?"
-                    className="flex-1 h-[42px] px-4 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-l-md focus:outline-none focus:border-gray-400"
+                    className="
+  flex-1
+  min-w-0
+  h-[42px]
+  px-3 sm:px-4
+  text-sm
+  text-gray-900
+  bg-gray-50
+  border
+  border-gray-200
+  rounded-l-md
+  focus:outline-none
+  focus:border-gray-400
+"
                   />
 
                   <button

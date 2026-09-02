@@ -41,14 +41,35 @@ const FlashSales: React.FC<FlashSalesProps> = ({
           w-full
           max-w-[1170px]
           mx-auto
-          px-0
-          pt-[44px]
-          pb-[52px]
+          px-4 sm:px-6 md:px-8 lg:px-0
+          pt-10 sm:pt-[44px]
+          pb-10 sm:pb-[52px]
         "
       >
-        {/*  HEADER  */}
-        <div className="flash-header flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-[28px]">
-          <div className="flash-header-left flex flex-col md:flex-row md:items-end gap-6 md:gap-[70px]">
+        {/* HEADER */}
+        <div
+          className="
+            flash-header
+            flex
+            flex-col
+            sm:flex-row
+            sm:items-end
+            justify-between
+            gap-5 sm:gap-6
+            mb-6 sm:mb-[28px]
+          "
+        >
+          <div
+            className="
+              flash-header-left
+              flex
+              flex-col
+              md:flex-row
+              md:items-end
+              gap-5
+              md:gap-[70px]
+            "
+          >
             <div>
               <div className="flex items-center gap-[10px] mb-[10px]">
                 <span
@@ -73,12 +94,13 @@ const FlashSales: React.FC<FlashSalesProps> = ({
                 </span>
               </div>
 
-              {/* HEADING - RESPONSIVE */}
               <h2
                 className="
                   !m-0
                   !p-0
-                  !text-2xl sm:!text-3xl md:!text-4xl
+                  !text-2xl
+                  sm:!text-3xl
+                  md:!text-4xl
                   !font-semibold
                   !text-black
                 "
@@ -90,14 +112,16 @@ const FlashSales: React.FC<FlashSalesProps> = ({
             <FlashSalesTimer />
           </div>
 
-          {/* ARROWS - RESPONSIVE SIZE */}
+          {/* ARROWS */}
           <div className="flex items-center gap-[10px] pb-[2px]">
             <button
               type="button"
               onClick={scrollLeft}
               aria-label="Previous products"
               className="
-                w-8 h-8 md:w-[42px] md:h-[42px]
+                w-9 h-9
+                sm:w-10 sm:h-10
+                md:w-[42px] md:h-[42px]
                 rounded-full
                 bg-[#F5F5F5]
                 flex
@@ -111,7 +135,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               "
             >
               <ChevronLeft
-                size={16}
+                size={18}
                 className="md:w-[20px] md:h-[20px]"
                 strokeWidth={1.8}
               />
@@ -122,7 +146,9 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               onClick={scrollRight}
               aria-label="Next products"
               className="
-                w-8 h-8 md:w-[42px] md:h-[42px]
+                w-9 h-9
+                sm:w-10 sm:h-10
+                md:w-[42px] md:h-[42px]
                 rounded-full
                 bg-[#F5F5F5]
                 flex
@@ -136,7 +162,7 @@ const FlashSales: React.FC<FlashSalesProps> = ({
               "
             >
               <ChevronRight
-                size={16}
+                size={18}
                 className="md:w-[20px] md:h-[20px]"
                 strokeWidth={1.8}
               />
@@ -144,18 +170,21 @@ const FlashSales: React.FC<FlashSalesProps> = ({
           </div>
         </div>
 
-        {/*  PRODUCTS SLIDER  */}
+        {/* PRODUCTS SLIDER */}
         <div
           ref={sliderRef}
           className="
             flex
-            gap-[30px]
+            gap-5
+            sm:gap-6
+            md:gap-[30px]
             overflow-x-auto
             scrollbar-hide
             snap-x
             snap-mandatory
             pb-[8px]
             w-full
+            overscroll-x-contain
           "
         >
           {products.map((product) => (
@@ -176,15 +205,16 @@ const FlashSales: React.FC<FlashSalesProps> = ({
           ))}
         </div>
 
-        {/*  VIEW ALL - RESPONSIVE WIDTH */}
-        <div className="flex justify-center mt-[38px]">
+        {/* VIEW ALL */}
+        <div className="flex justify-center mt-8 sm:mt-[38px]">
           <Link
             to={viewAllLink}
             className="
               inline-flex
               items-center
               justify-center
-              w-full sm:w-auto
+              w-full
+              sm:w-auto
               min-w-[160px]
               h-[46px]
               px-[24px]

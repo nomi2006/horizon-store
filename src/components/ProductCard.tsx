@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, Heart, ShoppingCart } from 'lucide-react';
 
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
+// import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
 
 interface ProductCardProps {
@@ -92,7 +92,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   className = '',
 }) => {
   const { addToCart } = useCart();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const { addItem, removeItem, isInWishlist } = useWishlist();
   const navigate = useNavigate();
 
@@ -153,11 +153,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     e.preventDefault();
     e.stopPropagation();
 
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
     if (isWishlistLoading) {
       return;
     }
@@ -206,10 +201,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     product.discountPercentage ||
     (product.originalPrice
       ? Math.round(
-          ((product.originalPrice - product.price) /
-            product.originalPrice) *
-            100
-        )
+        ((product.originalPrice - product.price) /
+          product.originalPrice) *
+        100
+      )
       : 0);
 
   const fallbackRating =
@@ -218,13 +213,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const rating =
     typeof product.rating === 'number' &&
-    product.rating > 0
+      product.rating > 0
       ? Math.min(5, product.rating)
       : fallbackRating.rating;
 
   const reviewCount =
     typeof product.reviewCount === 'number' &&
-    product.reviewCount > 0
+      product.reviewCount > 0
       ? product.reviewCount
       : typeof product.review_count === 'number' &&
         product.review_count > 0
@@ -257,7 +252,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       >
         {/* SALE / NEW BADGE */}
         {(showSaleBadge && discountPercentage > 0) ||
-        showNewBadge ? (
+          showNewBadge ? (
           <div
             className="
               absolute
@@ -514,7 +509,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </span>
 
           {product.originalPrice &&
-          product.originalPrice > product.price ? (
+            product.originalPrice > product.price ? (
             <span
               className="
                 text-[13px]
